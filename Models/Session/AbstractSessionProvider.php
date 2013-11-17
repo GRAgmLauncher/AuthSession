@@ -107,7 +107,7 @@ abstract class AbstractSessionProvider
 			return false;
 		}
 		
-		if (!$this->checkTimestamp($Session->time_stamp, 30)) {
+		if (!$this->checkTimestamp($Session->time_stamp, SESSION_TIMEOUT)) {
 			$this->endSession($Session);
 			return false;
 		}

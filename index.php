@@ -1,7 +1,9 @@
 <?php
 
+require_once "config/Constants.php";
 require_once "core/Autoloader.php";
 require_once "config/Dependencies.php";
+
 
 debug($container['CurrentSession']);
 debug($container['CurrentUser']);
