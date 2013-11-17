@@ -78,17 +78,6 @@ class SessionManager
 		session_regenerate_id(true);
 		session_destroy();
 	}
-	
-		
-	
-	/**
-	 * Gets the storage method used by the given provider
-	 * @return string
-	 **/
-		
-	public function getStorageMethod() {
-		return $this->SessionProvider->getStorageMethod();
-	}
 }
 
 ?>

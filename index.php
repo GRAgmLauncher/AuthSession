@@ -3,7 +3,6 @@
 require_once "core/Autoloader.php";
 require_once "config/Dependencies.php";
 
-debug($container['SessionManager']->getStorageMethod());
 debug($container['CurrentSession']);
 debug($container['CurrentUser']);
 
@@ -14,7 +13,7 @@ if (isset($_POST['login'])) {
 	} 
 	catch (\Exception $e)
 	{
-		$derp = $e->getMessage();
+		echo $e->getMessage();
 	}
 	
 }
@@ -35,7 +34,6 @@ if (isset($_POST['register'])) {
 
 <head></head>
 <body>
-	<?php echo (isset($derp)) ? $derp : null; ?>
 	<?php if ($container['CurrentUser']) : ?>
 		<?php echo "Hello, {$container['CurrentUser']->display_name}"; ?> <a href="?logout=true">Logout</a>
 	<?php endif; ?>

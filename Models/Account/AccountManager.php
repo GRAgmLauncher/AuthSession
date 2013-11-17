@@ -31,7 +31,7 @@ class AccountManager
 		if (!$Auth = $this->AuthMapper->fetchWhere('email', $email)) {
 			throw new \Exception('User does not exist');
 		}
-		
+
 		if (!$Auth->verifyPassword($password)) {
 			throw new \Exception('Password invalid');
 		}

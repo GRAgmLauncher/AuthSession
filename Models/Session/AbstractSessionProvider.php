@@ -32,7 +32,9 @@ abstract class AbstractSessionProvider
 	
 	public function initializeSession() {
 		
-		if ($Session = $this->validateSession()) {
+		$Session = $this->getCurrentSession();
+		
+		if ($this->validateSession($Session)) {
 			$this->updateSessionTimestamp($Session);
 		} else {
 			$this->createGuestSession();
@@ -62,8 +64,8 @@ abstract class AbstractSessionProvider
 	 **/
 	
 	public function createUserSession(\Interfaces\UserInterface $User) {
-		$Session = $this->SessionFactory->make();				// Instantiate a blank session
-		$Session->populate($User);								// Populate the session with User data
+		$Session = $this->SessionFactory->make();
+		$Session->populate($User);
 		$this->endCurrentSession();
 		$this->persist($Session);
 	}
@@ -97,11 +99,11 @@ abstract class AbstractSessionProvider
 	/**
 	 * Checks for an existing session. If found, it checks the session's timestamp to make sure it's still valid. 
 	 * If both conditions pass, the existing session is returned. 
-	 * @return mixed (Session, false)
+	 * @return bool
 	 **/
 	 	 			
-	protected function validateSession() {
-		if (!$Session = $this->getSession()) {
+	protected function validateSession($Session) {
+		if (!$Session instanceof \Interfaces\SessionInterface) {
 			return false;
 		}
 		
@@ -110,7 +112,7 @@ abstract class AbstractSessionProvider
 			return false;
 		}
 		
-		return $Session;
+		return true;
 	}
 
 
@@ -122,7 +124,7 @@ abstract class AbstractSessionProvider
 	 **/
 	 	
 	protected function persist(\Interfaces\SessionInterface $Session) {
-		$this->store($Session);
+		$this->storeSession($Session);
 		$this->CurrentSession = $Session;
 	}
 	
@@ -142,10 +144,9 @@ abstract class AbstractSessionProvider
 		return true;
 	}
 	
-	abstract protected function getSession();
-	abstract protected function store(\Interfaces\SessionInterface $Session);
+	abstract public function getCurrentSession();
+	abstract public function storeSession(\Interfaces\SessionInterface $Session);
 	abstract public function endSession(\Interfaces\SessionInterface $Session);
-	abstract public function getStorageMethod();
 }
 
 ?>

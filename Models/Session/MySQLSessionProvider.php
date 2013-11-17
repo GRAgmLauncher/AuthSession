@@ -17,7 +17,7 @@ class MySQLSessionProvider extends AbstractSessionProvider
 		$this->SessionMapper = $SessionMapper;
 	}
 	
-	protected function getSession() {
+	public function getCurrentSession() {
 		if ($Session = $this->SessionMapper->fetchByID(session_id())) {
 			return $Session;
 		}
@@ -25,14 +25,10 @@ class MySQLSessionProvider extends AbstractSessionProvider
 	}
 		
 	public function endSession(\Interfaces\SessionInterface $Session) {
-		$this->SessionMapper->delete($Session);	
+		$this->SessionMapper->delete($Session);
 	}
 	
-	public function getStorageMethod() {
-		return 'MySQL';
-	}
-	
-	protected function store(\Interfaces\SessionInterface $Session) {
+	public function storeSession(\Interfaces\SessionInterface $Session) {
 		$this->SessionMapper->save($Session);
 	}
 }

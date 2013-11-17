@@ -4,8 +4,8 @@ namespace Models\Session;
 
 class MemorySessionProvider extends AbstractSessionProvider
 {
-	protected function getSession() {
-		if (isset($_SESSION['sessionData']) && $_SESSION['sessionData'] instanceof \Interfaces\SessionInterface) {
+	public function getCurrentSession() {
+		if (isset($_SESSION['sessionData'])) {
 			return $_SESSION['sessionData'];
 		}
 		return false;
@@ -15,11 +15,7 @@ class MemorySessionProvider extends AbstractSessionProvider
 		$_SESSION = null;
 	}
 	
-	public function getStorageMethod() {
-		return 'Memory';
-	}
-	
-	protected function store(\Interfaces\SessionInterface $Session) {
+	public function storeSession(\Interfaces\SessionInterface $Session) {
 		$_SESSION['sessionData'] = $Session;
 	}
 }

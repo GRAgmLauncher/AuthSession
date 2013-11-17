@@ -15,18 +15,15 @@ class Auth extends \Core\DomainObject
 	public $email;
 	public $hash;
 	
-	public function verifyPassword($password)
-	{
+	public function verifyPassword($password) {
 		return password_verify($password, $this->hash);
 	}
 	
-	public function hashPassword($password)
-	{
+	public function hashPassword($password) {
 		$this->hash = password_hash($password, PASSWORD_DEFAULT);
 	}
 	
-	public function mapUser(\Interfaces\UserInterface $User)
-	{
+	public function mapUser(\Interfaces\UserInterface $User) {
 		$this->user_id = $User->getID();
 		$this->email = $User->email;
 		$this->registered = time();
