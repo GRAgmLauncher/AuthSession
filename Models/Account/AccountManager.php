@@ -26,14 +26,17 @@ class AccountManager
 		$this->UserFactory = $UserFactory;
 	}
 	
-	public function login($email, $password) 
-	{	
+	public function login($email, $password) {	
 		if (!$Auth = $this->AuthMapper->fetchWhere('email', $email)) {
 			throw new \Exception('User does not exist');
 		}
 
 		if (!$Auth->verifyPassword($password)) {
 			throw new \Exception('Password invalid');
+		}
+		
+		if ($Auth->rehashPassword($password)) {
+			$this->AuthMapper->save($Auth);
 		}
 		
 		$User = $this->UserMapper->fetchById($Auth->user_id);		// Get full user Mapper from the auth id
@@ -43,18 +46,15 @@ class AccountManager
 	
 	
 	
-	public function logout() 
-	{
+	public function logout() {
 		$this->SessionManager->endCurrentSession();				// End the current session
 		header("Location: /");
 	}
 	
 	
 	
-	public function register($username, $email, $password) 
-	{
-		if ($this->AuthMapper->fetchWhere('email', $email))
-		{
+	public function register($username, $email, $password) {
+		if ($this->AuthMapper->fetchWhere('email', $email)) {
 			echo 'user already exists!';
 			return;
 		}
