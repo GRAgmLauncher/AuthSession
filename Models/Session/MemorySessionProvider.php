@@ -5,8 +5,8 @@ namespace Models\Session;
 class MemorySessionProvider extends AbstractSessionProvider
 {
 	public function getCurrentSession() {
-		if (isset($_SESSION['sessionData'])) {
-			return $_SESSION['sessionData'];
+		if (isset($_SESSION['s'])) {
+			return $_SESSION['s'];
 		}
 		return false;
 	}
@@ -16,7 +16,7 @@ class MemorySessionProvider extends AbstractSessionProvider
 	}
 	
 	public function storeSession(\Interfaces\SessionInterface $Session) {
-		$_SESSION['sessionData'] = $Session;
+		$_SESSION['s'] = $Session;
 	}
 }
 

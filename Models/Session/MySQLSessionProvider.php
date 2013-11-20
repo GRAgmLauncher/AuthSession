@@ -12,16 +12,12 @@ class MySQLSessionProvider extends AbstractSessionProvider
 	 * @return void
 	 **/
 	
-	public function __construct ( \Models\Session\SessionFactory $SessionFactory, \Models\Session\SessionMapper $SessionMapper ) {
-		parent::__construct($SessionFactory);
+	public function __construct ( \Models\Session\SessionMapper $SessionMapper ) {
 		$this->SessionMapper = $SessionMapper;
 	}
 	
 	public function getCurrentSession() {
-		if ($Session = $this->SessionMapper->fetchByID(session_id())) {
-			return $Session;
-		}
-		return false;
+		return $this->SessionMapper->fetchByID(session_id());
 	}
 		
 	public function endSession(\Interfaces\SessionInterface $Session) {

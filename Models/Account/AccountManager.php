@@ -47,7 +47,7 @@ class AccountManager
 	
 	
 	public function logout() {
-		$this->SessionManager->endCurrentSession();				// End the current session
+		$this->SessionManager->destroyCurrentSession();				// End the current session
 		header("Location: /");
 	}
 	
@@ -55,8 +55,8 @@ class AccountManager
 	
 	public function register($username, $email, $password) {
 		if ($this->AuthMapper->fetchWhere('email', $email)) {
-			echo 'user already exists!';
-			return;
+			throw new \Exception('User already exists');
+			
 		}
 		
 		$User = $this->UserFactory->make();
@@ -64,13 +64,11 @@ class AccountManager
 		$User->login_name = $username;
 		$User->email = $email;
 		$User->group_id = 3;
-		
 		$User = $this->UserMapper->save($User); 	// Returns the saved object with the insert ID
 		
 		$Auth = $this->AuthFactory->make();
 		$Auth->mapUser($User);
 		$Auth->hashPassword($password);
-		
 		$this->AuthMapper->save($Auth);
 		
 		$this->SessionManager->createSession($User);

@@ -11,138 +11,20 @@ namespace Models\Session;
 
 abstract class AbstractSessionProvider
 {
-	protected $SessionFactory;
-	protected $CurrentSession;
 	
-	/**
-	 * @param SessionFactory
-	 * @return void
-	 **/
-	
-	public function __construct ( \Models\Session\SessionFactory $SessionFactory ) {
-		$this->SessionFactory = $SessionFactory;
-	}
-	
-	
-	
-	/**
-	 * The starting point for session creation. Call this method before any session-related behavior is needed
-	 * @return Session
-	 **/
-	
-	public function initializeSession() {
-		
-		$Session = $this->getCurrentSession();
-		
-		if ($this->validateSession($Session)) {
-			$this->updateSessionTimestamp($Session);
-		} else {
-			$this->createGuestSession();
-		}
-		return $this->CurrentSession;
-	}
-	
-	
-	
-	/**
-	 * Updates the timestamp of the given session, and then re-saves it
-	 * @param Session
-	 * @return void
-	 **/
-	
-	public function updateSessionTimestamp(\Interfaces\SessionInterface $Session) {
-		$Session->updateTimestamp();
-		$this->persist($Session);
-	}
-	
-	
-	
-	/**
-	 * Creates a brand new session based on the given User object
-	 * @param User $User
-	 * @return void
-	 **/
-	
-	public function createUserSession(\Interfaces\UserInterface $User) {
-		$Session = $this->SessionFactory->make();
-		$Session->populate($User);
-		$this->endCurrentSession();
-		$this->persist($Session);
-	}
-	
-	
-	
-	/**
-	 * Creates a brand new session based on some default parameters that indicate an anonymous guest user
-	 * @return void
-	 **/
-	
-	public function createGuestSession() {
-		$Session = $this->SessionFactory->make();		// The GuestSession constructor constructs a guest session by default
-		$Session->populate();							// Populate the session with default guest data
-		$this->persist($Session);						// Save the new session
-	}
-	
-	
-	
-	/**
-	 * Ends and destroys the current session, removing it from persistence and from memory
-	 * @return void
-	 **/
-	
-	public function endCurrentSession() {
-		$this->endSession($this->CurrentSession);
-	}
-	
-	
-	
-	/**
-	 * Checks for an existing session. If found, it checks the session's timestamp to make sure it's still valid. 
-	 * If both conditions pass, the existing session is returned. 
-	 * @return bool
-	 **/
-	 	 			
-	protected function validateSession($Session) {
-		if (!$Session instanceof \Interfaces\SessionInterface) {
-			return false;
-		}
-		
-		if (!$this->checkTimestamp($Session->time_stamp, SESSION_TIMEOUT)) {
-			$this->endSession($Session);
-			return false;
-		}
-		
-		return true;
-	}
+	public $CurrentSession;
 
-
-	
 	/**
 	 * Caches the session as the current session, and stores the session according to the chosen provider's storage mechanism
 	 * @param Session	 
 	 * @return void
 	 **/
 	 	
-	protected function persist(\Interfaces\SessionInterface $Session) {
+	public function persist(\Interfaces\SessionInterface $Session) {
 		$this->storeSession($Session);
 		$this->CurrentSession = $Session;
 	}
 	
-
-	
-	/**
-	 * Checks to make sure the session's timestamp is still valid
-	 * @param integer
-	 * @param integer	 
-	 * @return bool
-	 **/
-	 	
-	protected function checkTimestamp($sessionTimestamp, $allowedTime) {
-		if ($sessionTimestamp + $allowedTime < time()) {
-			return false;
-		}
-		return true;
-	}
 	
 	abstract public function getCurrentSession();
 	abstract public function storeSession(\Interfaces\SessionInterface $Session);

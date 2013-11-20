@@ -7,15 +7,15 @@ $container['db'] = $container->share(function($c) {
 });
 
 $container['MySQLSessionProvider'] = function($c) {
-	return new \Models\Session\MySQLSessionProvider( new \Models\Session\SessionFactory, $c['SessionMapper'] );
+	return new \Models\Session\MySQLSessionProvider( $c['SessionMapper'] );
 };
 
 $container['MemorySessionProvider'] = function($c) {
-	return new \Models\Session\MemorySessionProvider( new \Models\Session\SessionFactory );
+	return new \Models\Session\MemorySessionProvider;
 };
 
 $container['SessionManager'] = $container->share(function($c) {
-	return new \Models\Session\SessionManager( $c['MySQLSessionProvider'] ); // To change how the session is handled without changing the rest of the code, simply pass in a new session provider here
+	return new \Models\Session\SessionManager( $c['MySQLSessionProvider'], new \Models\Session\SessionFactory ); // To change how the session is handled without changing the rest of the code, simply pass in a new session provider here
 });
 
 $container['SessionMapper'] = function($c) {

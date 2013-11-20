@@ -9,12 +9,9 @@ debug($container['CurrentSession']);
 debug($container['CurrentUser']);
 
 if (isset($_POST['login'])) {
-	try 
-	{
+	try {
 		$container['AccountManager']->login($_POST['email'], $_POST['pass']);
-	} 
-	catch (\Exception $e)
-	{
+	} catch (\Exception $e) {
 		echo $e->getMessage();
 	}
 	
@@ -26,7 +23,11 @@ if (isset($_GET['logout'])) {
 }
 
 if (isset($_POST['register'])) {
-	$container['AccountManager']->register($_POST['user'], $_POST['email'], $_POST['pass']);
+	try {
+		$container['AccountManager']->register($_POST['user'], $_POST['email'], $_POST['pass']);
+	} catch (\Exception $e) {
+		echo $e->getMessage();
+	}
 }
 
 ?>

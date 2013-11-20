@@ -1,5 +1,5 @@
 <?php
 
-define('SESSION_TIMEOUT', 3600);
-define('PASSWORD_WORKFACTOR', 12);
+define('SESSION_LIFETIME', 10);
+define('PASSWORD_WORKFACTOR', 5);
 ?>
