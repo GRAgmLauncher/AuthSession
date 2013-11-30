@@ -41,14 +41,12 @@ class AccountManager
 		
 		$User = $this->UserMapper->fetchById($Auth->user_id);		// Get full user Mapper from the auth id
 		$this->SessionManager->createSession($User);				// Begin a new session
-		header("Location: /");
 	}
 	
 	
 	
 	public function logout() {
 		$this->SessionManager->destroyCurrentSession();				// End the current session
-		header("Location: /");
 	}
 	
 	
@@ -72,8 +70,6 @@ class AccountManager
 		$this->AuthMapper->save($Auth);
 		
 		$this->SessionManager->createSession($User);
-		
-		header("Location: /");
 	}
 	
 	public function resetPassword() {}
