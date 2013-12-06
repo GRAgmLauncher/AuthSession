@@ -1,12 +1,11 @@
 <?php
 
-require_once "core/Autoloader.php";
-require_once "config/Constants.php";
-require_once "config/Services.php";
-require_once "config/Controllers.php";
-require_once "config/Routes.php";
+require_once "Framework/Autoloader.php";
+require_once "Config/Constants.php";
+require_once "Config/Services.php";
+require_once "Config/Routes.php";
 
-$jpl = new JPL($services, $controllers, $routes);
+$jpl = new JPL($services, $routes);
 $jpl->run();
 
 ?>

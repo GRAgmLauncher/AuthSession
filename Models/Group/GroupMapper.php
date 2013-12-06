@@ -2,7 +2,7 @@
 
 namespace Models\Group;
 
-class GroupMapper extends \Core\MapperObject
+class GroupMapper extends \Framework\MapperObject
 {
 	protected $table = 'group';
 	protected $fields = array

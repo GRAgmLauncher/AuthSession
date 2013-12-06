@@ -2,7 +2,7 @@
 
 namespace Models\Group;
 
-class Group extends \Core\DomainObject
+class Group
 {
 	public $id;
 	public $name;

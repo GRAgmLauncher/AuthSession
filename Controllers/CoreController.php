@@ -20,8 +20,8 @@ class CoreController
 	
 	public function render($view) {
 		$this->Template->assign('CurrentUser', $this->CurrentUser);
-		$this->Template->assign('Flash', $this->Flash);
-		$this->Template->assign('csrf', $this->CSRF->makeToken());
+		$this->Template->assign('Flash', $this->Flash->getMessage());
+		$this->Template->assign('CSRFToken', $this->CSRFManager->makeToken());
 		$this->Template->render($view);
 	}
 }

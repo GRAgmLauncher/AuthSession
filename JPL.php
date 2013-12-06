@@ -8,11 +8,9 @@
 class JPL
 {
 	protected $Services;
-	protected $Controllers;
 	
-	public function __construct(\Pimple $Services, \Pimple $Controllers, Array $routes) {
+	public function __construct(\Pimple $Services, Array $routes) {
 		$this->Services = $Services;
-		$this->Controllers = $Controllers;
 		$this->addRoutes($routes);
 	}
 	
@@ -28,14 +26,12 @@ class JPL
 	
 	public function run() {
 		
-		$this->Services['Controllers'] 		= $this->Controllers;
 		$this->Services['CurrentSession'] 	= $this->Services['SessionManager']->initializeSession();
 		$this->Services['CurrentUser'] 		= $this->Services['UserMapper']->fetchByID($this->Services['CurrentSession']->user_id);
 		$this->Services['Input'] 			= $this->Services['InputCleaner']->scrub();
 		$this->Services['Route'] 			= $this->Services['Router']->getMatchedRoute();
-		
+		$this->Services['Params']			= $this->Services['Route']->parameters;
 		$this->Services['Dispatcher']->dispatch($this->Services['Route']);
-
 	}
 }
 
