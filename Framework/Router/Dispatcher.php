@@ -4,24 +4,30 @@ namespace Framework\Router;
 
 class Dispatcher {
 	
-	public $Factory;
-	
-	public function __construct(\Controllers\ControllerFactory $Factory ) {
-		$this->Factory = $Factory;
-	}
+	private $controller;
+	private $action;
 	
 	public function dispatch(\Framework\Router\Route $Route) {
 		$bits = explode('->', $Route->handler);
-		
-		$controller = $this->Factory->make($bits[0]);
-		
-		$r = new \ReflectionClass($controller);
-		$controllerName = strtolower(str_replace('Controller', '', $r->getShortName()));
-		
-		$action = $bits[1];
-		
-		$controller->$action();
-		$controller->render("{$controllerName}/{$action}");
+		$this->controller = $bits[0];
+		$this->action = $bits[1];
+	}
+	
+	public function getView() {
+		$controller = strtolower(str_replace('Controller', '', $this->controller));
+		return $controller.DIRECTORY_SEPARATOR.$this->action;
+	}
+	
+	public function getControllerBaseName() {
+		return $this->Controller;
+	}
+	
+	public function getControllerFullName() {
+		return "Controllers\\{$this->controller}";
+	}
+	
+	public function getControllerAction() {
+		return $this->action;
 	}
 }
 

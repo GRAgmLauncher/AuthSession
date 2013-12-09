@@ -15,7 +15,7 @@ class Template
 		$this->view = $view;
 	}
 	
-	public function render($view) {
+	public function render($view = null) {
 		
 		if (!$this->view) {
 			$this->setView($view);

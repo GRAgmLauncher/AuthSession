@@ -5,7 +5,7 @@ namespace Framework;
 class Request {
 	
 	public function getURI() {
-		return $_SERVER['REQUEST_URI'];
+		return $_SERVER['REDIRECT_URL'];
 	}
 }
 

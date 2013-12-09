@@ -5,7 +5,7 @@
  * @copyright 2013
  */
 
-namespace Framework\Input;
+namespace Framework\Inputer;
 
 class Input extends \ArrayObject
 {

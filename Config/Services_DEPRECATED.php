@@ -3,7 +3,7 @@
 $services = new Pimple();
 
 $services['db'] = $services->share(function($s) {
-	return DB::connect();
+	return new PDO('mysql:host=localhost;dbname=fakesite', 'fakesiteadmin', '');
 });
 
 $services['InputCleaner'] = function($s) {

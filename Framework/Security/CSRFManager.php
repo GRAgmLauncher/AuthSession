@@ -9,14 +9,14 @@ namespace Framework\Security;
 
 class CSRFManager {
 	
-	protected $Input;
 	protected $Redirect;
 	protected $SecurityHelper;
+	protected $Input;
 	
-	public function __construct(\Framework\Input\Input $Input, \Framework\Redirect $Redirect, \Framework\Security\SecurityHelper $SecurityHelper) {
-		$this->Input = $Input;
+	public function __construct(\Framework\Inputer\Input $CleanedInput, \Framework\Redirect $Redirect, \Framework\Security\SecurityHelper $SecurityHelper) {
 		$this->Redirect = $Redirect;
 		$this->SecurityHelper = $SecurityHelper;
+		$this->Input = $CleanedInput;
 	}
 	
 	public function makeToken() {
@@ -34,8 +34,8 @@ class CSRFManager {
 		$sessionToken = $this->getSessionValue($this->getInputKey()); 	// Use the input key to get the session value
 		$inputToken = $this->getInputValue($this->getSessionKey()); 	// Use the session key to get the input value
 		
-		if ($sessionToken !== false) { 
-			if ($inputToken !== false) {
+		if ($sessionToken != false) {
+			if ($inputToken != false) {
 				if ($sessionToken === $inputToken) {
 					$this->killCurrentToken();
 					return;

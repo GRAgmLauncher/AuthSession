@@ -9,15 +9,9 @@ namespace Controllers;
 
 class ControllerFactory
 {
-	protected $Services;
-	
-	public function __construct($Services) {
-		$this->Services = $Services;
-	}
-	
 	public function make($controllerName) {
 		$controller = '\\Controllers\\'.$controllerName;
-		return new $controller($this->Services);
+		return new $controller();
 	}
 }
 

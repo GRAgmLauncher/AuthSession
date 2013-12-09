@@ -17,7 +17,7 @@ class DefaultLoginHandler extends AbstractLoginHandler
 			$this->AuthMapper->save($Auth);
 		}
 		
-		$User = $this->UserMapper->fetchById($Auth->user_id);		// Get full user Mapper from the auth id
+		$User = $this->UserMapper->fetchById($Auth->user_id);		// Get full user data from the auth id
 		$this->SessionManager->createSession($User);				// Begin a new session
 	}
 }

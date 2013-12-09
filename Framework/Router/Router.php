@@ -19,6 +19,11 @@ class Router {
 		$this->routes[$uri] = $Route;
 	}
 	
+	public function setRoutes(Array $routes) {
+		foreach ($routes as $uri => $handler) {
+			$this->setRoute($uri, $handler);
+		} 
+	}
 	
 	/**
 	 * @return Route $Route
@@ -28,7 +33,6 @@ class Router {
 		
 		$uri = $this->Request->getURI();
 		$match_count = 0;
-		
 		foreach($this->routes as $Route) {
 			if (preg_match($Route->pattern, $uri, $matches) == 1) {
 				$Route->addParams($matches);

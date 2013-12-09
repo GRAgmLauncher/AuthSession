@@ -9,20 +9,42 @@ namespace Controllers;
 
 class CoreController
 {
-	protected $App;
-	public function __construct($App) {
-		$this->App = $App;
-	}
+	protected $CurrentUser;
+	protected $CurrentSession;
+	protected $Template;
+	protected $Input;
+	protected $Flash;
+	protected $Redirect;
 	
-	public function __get($key) {
-		return $this->App[$key];
-	}
-	
-	public function render($view) {
+	public function render() {
 		$this->Template->assign('CurrentUser', $this->CurrentUser);
+		$this->Template->assign('CurrentSession', $this->CurrentSession);
 		$this->Template->assign('Flash', $this->Flash->getMessage());
-		$this->Template->assign('CSRFToken', $this->CSRFManager->makeToken());
-		$this->Template->render($view);
+		$this->Template->render();
+	}
+	
+	public function setCurrentSession(\Framework\Session\Session $CurrentSession) {
+		$this->CurrentSession = $CurrentSession;
+	}
+	
+	public function setCurrentUser($CurrentUser) {
+		$this->CurrentUser = $CurrentUser;
+	}
+	
+	public function setTemplate(\Views\Template $Template) {
+		$this->Template = $Template;
+	}
+	
+	public function setInput(\Framework\Inputer\Input $Input) {
+		$this->Input = $Input;
+	}
+	
+	public function setFlasher(\Framework\Flasher\Flash $Flash) {
+		$this->Flash = $Flash;
+	}
+	
+	public function setBouncer(\Framework\Redirect $Redirect) {
+		$this->Redirect = $Redirect;
 	}
 }
 

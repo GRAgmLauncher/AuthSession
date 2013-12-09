@@ -23,8 +23,8 @@ class SessionManager
 	 * @return void
 	 **/
 	
-	public function __construct ( \Framework\Session\AbstractSessionProvider $SessionProvider, \Framework\Session\SessionFactory $SessionFactory ) {
-		$this->SessionProvider = $SessionProvider;
+	public function __construct ( \Framework\Session\AbstractSessionProvider $AbstractSessionProvider, \Framework\Session\SessionFactory $SessionFactory ) {
+		$this->SessionProvider = $AbstractSessionProvider;
 		$this->SessionFactory = $SessionFactory;
 	}
 	

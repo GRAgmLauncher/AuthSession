@@ -7,31 +7,46 @@
 
 class JPL
 {
-	protected $Services;
+	protected $routes;
+	protected $Injector;
 	
-	public function __construct(\Pimple $Services, Array $routes) {
-		$this->Services = $Services;
-		$this->addRoutes($routes);
-	}
-	
-	private function addRoutes(Array $routes) {
-		foreach ($routes as $uri => $closure) {
-			$this->route($uri, $closure);
-		}
-	}
-	
-	public function route($uri, $closure) {
-		$this->Services['Router']->setRoute($uri, $closure);
+	public function __construct(Array $routes, \Framework\AutoInjector $Injector) {
+		$this->routes = $routes;
+		$this->Injector = $Injector;
 	}
 	
 	public function run() {
 		
-		$this->Services['CurrentSession'] 	= $this->Services['SessionManager']->initializeSession();
-		$this->Services['CurrentUser'] 		= $this->Services['UserMapper']->fetchByID($this->Services['CurrentSession']->user_id);
-		$this->Services['Input'] 			= $this->Services['InputCleaner']->scrub();
-		$this->Services['Route'] 			= $this->Services['Router']->getMatchedRoute();
-		$this->Services['Params']			= $this->Services['Route']->parameters;
-		$this->Services['Dispatcher']->dispatch($this->Services['Route']);
+		$Router = $this->Injector->create('Framework\Router\Router');
+		$Router->setRoutes($this->routes);
+		
+		$Route				= $Router->getMatchedRoute();
+		$CurrentSession 	= $this->Injector->create('Framework\Session\SessionManager')->initializeSession();
+		$CurrentUser 		= $this->Injector->create('Models\User\UserMapper')->fetchByID($CurrentSession->user_id);
+		$CleanedInput 		= $this->Injector->create('Framework\Inputer\InputCleaner')->scrub();
+							  $this->Injector->register('Framework\Inputer\Input', $CleanedInput);
+							  
+		$Template 			= $this->Injector->create('Views\Template');
+		$Flash				= $this->Injector->create('Framework\Flasher\Flash');
+		$Redirect			= $this->Injector->create('Framework\Redirect');
+		$Dispatcher 		= $this->Injector->create('Framework\Router\Dispatcher');
+		
+		$Dispatcher->dispatch($Route);
+		
+		$Controller = $this->Injector->create($Dispatcher->getControllerFullName());
+		$Template->setView($Dispatcher->getView());
+
+		
+		$Controller->setCurrentSession($CurrentSession);
+		$Controller->setCurrentUser($CurrentUser);
+		$Controller->setInput($CleanedInput);
+		$Controller->setTemplate($Template);
+		$Controller->setFlasher($Flash);
+		$Controller->setBouncer($Redirect);
+		
+		$action = $Dispatcher->getControllerAction();
+		$Controller->$action();
+		$Controller->render();
 	}
 }
 
