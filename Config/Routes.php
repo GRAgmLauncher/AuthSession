@@ -11,6 +11,7 @@ $routes = array
 	'/404'							=> 'DefaultController->error404',
 	'/login'						=> 'AccountController->login',
 	'/logout'						=> 'AccountController->logout',
+	'/register'						=> 'AccountController->register',
 	'/upload'						=> 'ImageController->upload',
 	'/product/add'					=> 'ProductController->add',
 	'/product/:id'					=> 'ProductController->details',

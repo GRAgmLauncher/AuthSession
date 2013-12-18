@@ -33,7 +33,7 @@ class Auth
 	}
 	
 	public function mapUser(\Framework\Interfaces\UserInterface $User) {
-		$this->user_id = $User->getID();
+		$this->user_id = $User->id;
 		$this->email = $User->email;
 		$this->registered = time();
 	}

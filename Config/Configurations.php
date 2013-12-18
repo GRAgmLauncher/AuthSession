@@ -8,5 +8,6 @@ $config['database']['pass']		= '';
 $config['flash_storage']		= 'Framework\Flasher\FlashStorage';
 $config['login_handler']		= 'Framework\Account\LoginHandlers\DefaultLoginHandler';
 $config['logout_handler']		= 'Framework\Account\LogoutHandlers\DefaultLogoutHandler';
+$config['registration_handler'] = 'Framework\Account\RegistrationHandlers\DefaultRegistrationHandler';
 
 ?>

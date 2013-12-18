@@ -16,13 +16,6 @@ class CoreController
 	protected $Flash;
 	protected $Redirect;
 	
-	public function render() {
-		$this->Template->assign('CurrentUser', $this->CurrentUser);
-		$this->Template->assign('CurrentSession', $this->CurrentSession);
-		$this->Template->assign('Flash', $this->Flash->getMessage());
-		$this->Template->render();
-	}
-	
 	public function setCurrentSession(\Framework\Session\Session $CurrentSession) {
 		$this->CurrentSession = $CurrentSession;
 	}

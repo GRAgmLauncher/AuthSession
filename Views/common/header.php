@@ -14,7 +14,6 @@
 					<input type="text" name="email" placeholder="Emails" />
 					<input type="password" name="password" placeholder="Password" />
 					<input type="submit" name="login" value="Log In" />
-					<input type="hidden" name="<?php echo $CSRFToken->key; ?>" size="20" width="300" style="width: 300px;" value="<?php echo $CSRFToken->value; ?>" />
 				</form>
 			<?php endif; ?>
 		</nav>

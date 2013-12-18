@@ -2,7 +2,7 @@
 
 namespace Framework\Account\RegistrationHandlers;
 
-abstract class DefaultRegistrationHandler extends AbstractRegistrationHandler
+class DefaultRegistrationHandler extends AbstractRegistrationHandler
 {
 	public function register($username, $email, $password) {
 		if ($this->AuthMapper->fetchWhere('email', $email)) {
