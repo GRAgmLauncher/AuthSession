@@ -20,8 +20,7 @@ class JPL
 		// Start the session, and load framework helpers/components
 		$CurrentSession 	= $this->Injector->create('Framework\Session\SessionManager')->initializeSession();
 		$CurrentUser 		= $this->Injector->create('Models\User\UserMapper')->fetchByID($CurrentSession->user_id);
-		$CleanedInput 		= $this->Injector->create('Framework\Inputer\InputCleaner')->scrub();
-							  $this->Injector->register('Framework\Inputer\Input', $CleanedInput);					  
+		$Input 				= $this->Injector->create('Framework\Inputer\Input');					  
 		$Template 			= $this->Injector->create('Views\Template');
 		$Flash				= $this->Injector->create('Framework\Flasher\Flash');
 		$Redirect			= $this->Injector->create('Framework\Redirect');
@@ -45,7 +44,7 @@ class JPL
 		$Controller = $this->Injector->create($controller);
 		$Controller->setCurrentSession($CurrentSession);
 		$Controller->setCurrentUser($CurrentUser);
-		$Controller->setInput($CleanedInput);
+		$Controller->setInput($Input);
 		$Controller->setTemplate($Template);
 		$Controller->setFlasher($Flash);
 		$Controller->setBouncer($Redirect);

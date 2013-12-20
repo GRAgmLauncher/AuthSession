@@ -26,6 +26,7 @@ class AccountController extends \Controllers\CoreController
 	}
 	
 	public function login() {
+		debug($this->Input['login']);
 		if ($this->Input['login']) {
 			$this->LoginHandler->login($this->Input['email'], $this->Input['password']);
 			$this->Redirect->withMessage('Yay logged in!', 'green', '/');

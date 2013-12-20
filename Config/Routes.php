@@ -17,7 +17,8 @@ $routes = array
 	'/product/:id'					=> 'ProductController->details',
 	'/product/:id/edit'				=> 'ProductController->edit',
 	'/product/:id/delete'			=> 'ProductController->delete',
-	'/products'						=> 'ProductController->list'
+	'/products'						=> 'ProductController->list',
+	'/test'							=> 'SecurityTestController->test'
 );
 
 ?>

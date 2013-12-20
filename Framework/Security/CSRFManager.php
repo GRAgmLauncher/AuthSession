@@ -13,7 +13,7 @@ class CSRFManager {
 	protected $SecurityHelper;
 	protected $Input;
 	
-	public function __construct(\Framework\Inputer\Input $CleanedInput, \Framework\Redirect $Redirect, \Framework\Security\SecurityHelper $SecurityHelper) {
+	public function __construct(\Framework\Inputer\Input $Input, \Framework\Redirect $Redirect, \Framework\Security\SecurityHelper $SecurityHelper) {
 		$this->Redirect = $Redirect;
 		$this->SecurityHelper = $SecurityHelper;
 		$this->Input = $CleanedInput;

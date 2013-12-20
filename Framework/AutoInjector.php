@@ -18,7 +18,7 @@ class AutoInjector
 	public function create($className) {
 		
 		//-----------------------------------------------------------
-		// Check the class name for subtitutions
+		// Check the class name for substitutions
 		//-----------------------------------------------------------
 
 		$className = $this->getSubstitution($className);
@@ -49,7 +49,7 @@ class AutoInjector
 		try {
 			$ReflectedClass = new \ReflectionClass($className);
 		} catch (\Exception $e) {
-			echo "{$className} does not exist";
+			echo "{$className} does not exist";exit;
 		}
 		
 				
@@ -115,16 +115,13 @@ class AutoInjector
 	{
 		$injections = array();
 		
-		if (!$Constructor = $ReflectedClass->getConstructor()) 
-		{
+		if (!$Constructor = $ReflectedClass->getConstructor()) {
 			return $injections;
 		}
 		
 		$params = $this->getConstructorParameters($Constructor);
-		if (count($params > 0))
-		{
-			foreach ($params as $param) 
-			{
+		if (count($params > 0)) {
+			foreach ($params as $param) {
 				$injections[] = $this->create($param);
 			}
 		}
@@ -135,9 +132,10 @@ class AutoInjector
 	private function getConstructorParameters(\ReflectionMethod $Constructor)
 	{
 		$parameters = array();
-		foreach($Constructor->getParameters() as $param)
-		{
-			$parameters[] = $param->getClass()->name;
+		foreach($Constructor->getParameters() as $param) {
+			if ($param->getClass()) {
+				$parameters[] = $param->getClass()->name;
+			}
 		}
 		return $parameters;
 	}
