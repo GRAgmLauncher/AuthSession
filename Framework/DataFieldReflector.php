@@ -22,7 +22,7 @@ class DataFieldReflector
 	public function getType() {
 		$type = substr($this->property->getDocComment(), 3, -2);
 		if (!preg_match('#\*#', $type)) {
-				return $type;
+				return trim($type);
 		}
 	}
 }

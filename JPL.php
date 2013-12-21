@@ -18,13 +18,13 @@ class JPL
 	public function run() {
 		
 		// Start the session, and load framework helpers/components
-		$CurrentSession 	= $this->Injector->create('Framework\Session\SessionManager')->initializeSession();
-		$CurrentUser 		= $this->Injector->create('Models\User\UserMapper')->fetchByID($CurrentSession->user_id);
+		$Session 	= $this->Injector->create('Framework\Session\SessionManager')->initializeSession();
 		$Input 				= $this->Injector->create('Framework\Inputer\Input');					  
 		$Template 			= $this->Injector->create('Views\Template');
 		$Flash				= $this->Injector->create('Framework\Flasher\Flash');
 		$Redirect			= $this->Injector->create('Framework\Redirect');
 		
+		debug($Session);
 		
 		// Run the router
 		$Router = $this->Injector->create('Framework\Router\Router');
@@ -42,8 +42,7 @@ class JPL
 		
 		// Load the controller, and inject common dependencies. Call the controller action.
 		$Controller = $this->Injector->create($controller);
-		$Controller->setCurrentSession($CurrentSession);
-		$Controller->setCurrentUser($CurrentUser);
+		$Controller->setSession($Session);
 		$Controller->setInput($Input);
 		$Controller->setTemplate($Template);
 		$Controller->setFlasher($Flash);
@@ -52,8 +51,7 @@ class JPL
 		
 		
 		// Do final template assignments, and then render the view
-		$Template->assign('CurrentUser', $CurrentUser);
-		$Template->assign('CurrentSession', $CurrentSession);
+		$Template->assign('Session', $Session);
 		$Template->assign('Flash', $Flash->getMessage());
 		$Template->render($view);
 	}

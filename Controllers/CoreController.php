@@ -9,19 +9,14 @@ namespace Controllers;
 
 class CoreController
 {
-	protected $CurrentUser;
-	protected $CurrentSession;
+	protected $Session;
 	protected $Template;
 	protected $Input;
 	protected $Flash;
 	protected $Redirect;
 	
-	public function setCurrentSession(\Framework\Session\Session $CurrentSession) {
-		$this->CurrentSession = $CurrentSession;
-	}
-	
-	public function setCurrentUser($CurrentUser) {
-		$this->CurrentUser = $CurrentUser;
+	public function setSession(\Framework\Session\Session $Session) {
+		$this->Session = $Session;
 	}
 	
 	public function setTemplate(\Views\Template $Template) {

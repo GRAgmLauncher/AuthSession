@@ -4,10 +4,14 @@ namespace Models\Group;
 
 class Group
 {
+	/** int */
 	public $id;
+	
+	/** string */
 	public $name;
-	public $permissionLevel;
-	public $isAdmin = false;
+	
+	/** int */
+	public $permission_level;
 }
 
 

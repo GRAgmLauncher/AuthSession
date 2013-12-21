@@ -11,10 +11,7 @@ class User implements \Framework\Interfaces\UserInterface
 {
 	/** int */
 	public $id;
-	
-	/** int */
-	public $group_id;
-	
+
 	/** string */
 	public $display_name;
 	
@@ -23,6 +20,12 @@ class User implements \Framework\Interfaces\UserInterface
 	
 	/** string */
 	public $email;
+	
+	/** int */
+	public $group_id;
+	
+	/** Group */
+	public $Group;
 }
 
 ?>

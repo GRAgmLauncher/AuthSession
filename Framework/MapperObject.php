@@ -5,12 +5,10 @@ namespace Framework;
 class MapperObject
 {
 	protected $db;
-	protected $obj;
-	protected $conditions;
+	private $children = array();
 	
-	public function __construct($obj, $db)
+	public function __construct(\PDO $db)
 	{
-		$this->obj = $obj;
 		$this->db = $db;
 	}
 	
@@ -29,8 +27,13 @@ class MapperObject
 		$stmt = $this->db->prepare("SELECT * FROM `{$this->table}` WHERE `{$fieldName}` = :{$fieldName}");
 		$stmt->bindParam(":{$fieldName}", $value, $this->_mapFieldType($fieldType));
 		$stmt->execute();
-		$stmt->setFetchMode(\PDO::FETCH_CLASS|\PDO::FETCH_PROPS_LATE, get_class($this->obj)); 
-		return $stmt->fetch();
+		$stmt->setFetchMode(\PDO::FETCH_CLASS|\PDO::FETCH_PROPS_LATE, $this->proxy);
+		
+		$builtObject = $stmt->fetch();
+		
+		$builtObject = $this->buildChildren($builtObject);
+		
+		return $builtObject;
 	}
 	
 	
@@ -40,7 +43,7 @@ class MapperObject
 		$sql .= $this->_addLimit($limit);
 		$stmt = $this->db->prepare($sql);
 		$stmt->execute();
-		$stmt->setFetchMode(\PDO::FETCH_CLASS|\PDO::FETCH_PROPS_LATE, get_class($this->obj)); 
+		$stmt->setFetchMode(\PDO::FETCH_CLASS|\PDO::FETCH_PROPS_LATE, $this->proxy); 
 		return $stmt->fetchAll();
 	}
 
@@ -53,7 +56,7 @@ class MapperObject
 	
 	protected function _insertUpdate($obj)	
 	{
-		$fields = $this->getDataFields();
+		$fields = $this->getDataFields($obj);
 		$sql = "INSERT INTO `{$this->table}`(";
 		$sql .= implode(', ', array_keys($fields));
 		$sql .= ") VALUES (:";
@@ -123,19 +126,38 @@ class MapperObject
 	}
 	
 	private function getDataField($field) {
-		$reflection = new \ReflectionClass($this->obj);
+		$reflection = new \ReflectionClass($this->proxy);
 		$property = $reflection->getProperty($field);
 		return new \Framework\DataFieldReflector($property);
 	}
 		
-	private function getDataFields() {
+	private function getDataFields($object) {
 		$fields = array();
-		$reflection = new \ReflectionClass($this->obj);
+		$reflection = new \ReflectionClass($object);
 		foreach ($reflection->getProperties() as $property) {
 			$field = new \Framework\DataFieldReflector($property);
-			$fields[$property->getName()] = $field;
+			if (in_array($field->getType(), array('string', 'int', 'float', 'bool'))) {
+				$fields[$property->getName()] = $field;
+			}
 		}
 		return $fields;
+	}
+	
+	protected function addChild($mapper, $field, $identifier) {
+		$this->children[$field] = array('mapper' => $mapper, 'field' => $field, 'identifier' => $identifier);
+	}
+	
+	private function buildChildren($builtObject) {
+	
+		if (!$builtObject) {
+			return;
+		}
+		
+		foreach($this->children as $child) {
+			$builtObject->$child['field'] = $child['mapper']->fetchByID($builtObject->$child['identifier']);
+		}
+		
+		return $builtObject;
 	}
 }
 
