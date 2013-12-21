@@ -5,8 +5,7 @@ namespace Framework;
 class MapperObject
 {
 	protected $db;
-	private $children = array();
-	
+
 	public function __construct(\PDO $db)
 	{
 		$this->db = $db;
@@ -31,7 +30,7 @@ class MapperObject
 		
 		$builtObject = $stmt->fetch();
 		
-		$builtObject = $this->buildChildren($builtObject);
+		$this->buildChildren($builtObject);
 		
 		return $builtObject;
 	}
@@ -143,21 +142,15 @@ class MapperObject
 		return $fields;
 	}
 	
-	protected function addChild($mapper, $field, $identifier) {
-		$this->children[$field] = array('mapper' => $mapper, 'field' => $field, 'identifier' => $identifier);
-	}
-	
 	private function buildChildren($builtObject) {
 	
 		if (!$builtObject) {
 			return;
 		}
 		
-		foreach($this->children as $child) {
-			$builtObject->$child['field'] = $child['mapper']->fetchByID($builtObject->$child['identifier']);
+		if (method_exists($this, 'addChildren')) {
+			$this->addChildren($builtObject);
 		}
-		
-		return $builtObject;
 	}
 }
 

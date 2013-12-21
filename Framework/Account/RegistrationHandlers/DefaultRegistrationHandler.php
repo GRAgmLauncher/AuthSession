@@ -13,7 +13,7 @@ class DefaultRegistrationHandler extends AbstractRegistrationHandler
 		$User->display_name = $username;
 		$User->login_name = $username;
 		$User->email = $email;
-		$User->group_id = 3;
+		$User->group_id = 2;
 		$User = $this->UserMapper->save($User); 	// Returns the saved object with the insert ID
 		
 		$Auth = $this->AuthFactory->make();
