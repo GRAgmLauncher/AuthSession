@@ -26,16 +26,15 @@ class AccountController extends \Controllers\CoreController
 	}
 	
 	public function login() {
-		debug($this->Input['login']);
 		if ($this->Input['login']) {
 			$this->LoginHandler->login($this->Input['email'], $this->Input['password']);
-			$this->Redirect->withMessage('Yay logged in!', 'green', '/');
+			$this->Redirect->to($this->Input['thispage']);
 		}
 	}
 	
 	public function logout() {
 		$this->LogoutHandler->logout();
-		$this->Redirect->to('/login');
+		$this->Redirect->to('/');
 	}
 	
 	public function register() {

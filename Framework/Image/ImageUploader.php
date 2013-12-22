@@ -13,15 +13,19 @@ class ImageUploader {
 	protected $ImageFactory;
 	protected $SecurityHelper;
 	
-	public function __construct($tempDirectory, \Framework\Image\ImageFactory $ImageFactory, \Framework\Security\SecurityHelper $SecurityHelper) {
-		$this->tempDirectory = $tempDirectory . DIRECTORY_SEPARATOR;
+	public function __construct(\Framework\Image\ImageFactory $ImageFactory, \Framework\Security\SecurityHelper $SecurityHelper) {
+		$this->tempDirectory = UPLOADS_TEMP . DIRECTORY_SEPARATOR;
 		$this->ImageFactory = $ImageFactory;
 		$this->SecurityHelper = $SecurityHelper;
 	}
 	
 	
-	public function upload($field, $name, $directory) 
+	public function upload($field, $name, $directory, $required = true) 
 	{
+		// 0. Check to makes sure the image has been uploaded
+		if (!$this->validateUpload($field, $required)) {
+			return;
+		}
 		
 		// 1. Move uploaded file into temporary copy
 		if (!$TempImage = $this->makeTemporaryImage($field)) {
@@ -58,6 +62,17 @@ class ImageUploader {
 		
 		// 4. Return a new image object for the newly moved file
 		return $this->ImageFactory->make($tempPath);
+	}
+	
+	protected function validateUpload($field, $required) {
+		if (!isset($_FILES[$field]) || $_FILES[$field]['error'] == 4) {
+			if ($required) {
+				throw new \Exception('Image is required');
+			}
+			return false;
+		}
+		
+		return true;
 	}
 
 }

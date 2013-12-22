@@ -1,9 +1,12 @@
 <?php
 
-namespace \Models\Product;
+namespace Models\Product;
 
 class Product
 {
+	/** int */
+	public $id;
+	
 	/** int */
 	public $width;
 	
@@ -11,7 +14,7 @@ class Product
 	public $height;
 	
 	/** string */
-	public $name;
+	public $title;
 	
 	/** string */
 	public $description;
@@ -22,6 +25,24 @@ class Product
 	/** float */
 	public $price;
 	
-	/** int */
-	public $image_id;
+	public function getSlugName() {
+		return strtolower(str_replace(' ', '-', trim($this->title)));
+	}
+	
+	public function populateFromSource($source) {
+		foreach($this->getFields() as $field) {
+			$this->$field = $source[$field];
+		}
+	}
+	
+	protected function getFields() {
+		$fields = array();
+		$reflector = new \ReflectionClass($this);
+		
+		foreach($reflector->getProperties() as $field) {
+			$fields[] = $field->getName();
+		}
+		
+		return $fields;
+	}
 }

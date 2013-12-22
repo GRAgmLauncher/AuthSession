@@ -8,6 +8,7 @@ class AutoInjector
 	public $shared = array();
 	public $cache = array();
 	public $instances = array();
+	public $specificInstances = array();
 
 	/**
 	 * Recursively injects an object with all of its required dependencies
@@ -15,7 +16,7 @@ class AutoInjector
 	 * @return object
 	 */
 
-	public function create($className) {
+	public function create($className, $arguments = array()) {
 		
 		//-----------------------------------------------------------
 		// Check the class name for substitutions
@@ -59,7 +60,7 @@ class AutoInjector
 		// Get the injections to be passed into the ReflectedClass's constructor arguments
 		//-----------------------------------------------------------
 		
-		$injections = $this->getConstructorInjections($ReflectedClass);
+		$injections = $this->getConstructorInjections($ReflectedClass, $arguments);
 
 		//-----------------------------------------------------------
 		// If injection count is 0, just return a new instance of the given class name
@@ -93,8 +94,12 @@ class AutoInjector
 		$this->substitutions[$this->trimClass($thisClass)] = $thatClass;
 	}
 	
-	public function register($thisClass, $obj) {
+	public function bind($thisClass, $obj) {
 		$this->instances[$this->trimClass($thisClass)] = $obj;
+	}
+	
+	public function bindSpecific($parent, $thisClass, $obj) {
+		$this->specificInstances[$this->trimClass($parent)][$this->trimClass($thisClass)] = $obj;
 	}
 	
 	/**
@@ -111,9 +116,10 @@ class AutoInjector
 		return $className;
 	}
 	
-	private function getConstructorInjections(\ReflectionClass $ReflectedClass)
+	private function getConstructorInjections(\ReflectionClass $ReflectedClass, $arguments)
 	{
 		$injections = array();
+		$className = $ReflectedClass->getName();
 		
 		if (!$Constructor = $ReflectedClass->getConstructor()) {
 			return $injections;
@@ -121,8 +127,13 @@ class AutoInjector
 		
 		$params = $this->getConstructorParameters($Constructor);
 		if (count($params > 0)) {
-			foreach ($params as $param) {
-				$injections[] = $this->create($param);
+			foreach ($params as $key => $param) {
+				if (isset($arguments[$key])) {
+					$injections[] = $arguments[$key];
+				}
+				else {
+					$injections[] = $this->create($param);
+				}
 			}
 		}
 		

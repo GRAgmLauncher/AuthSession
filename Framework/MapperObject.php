@@ -49,7 +49,7 @@ class MapperObject
 	
 	public function save($obj)
 	{
-		return $this->_insertUpdate($obj);
+		$this->_insertUpdate($obj);
 	}
 	
 	
@@ -77,8 +77,6 @@ class MapperObject
 		{
 			$obj->id = $this->db->lastInsertId();
 		}
-		
-		return $obj;
 	}
 	
 	public function delete($obj)

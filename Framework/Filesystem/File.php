@@ -65,6 +65,14 @@ class File
 	public function delete() {
 		unlink($this->getFullPath());
 	}
+	
+	public function rename($newName) {
+		rename($this->getDirectory().$this->getName().'.'.$this->getExtension(), $this->getDirectory().$newName.'.'.$this->getExtension());
+	}
+	
+	public function move() {
+	
+	}
 }
 
 ?>

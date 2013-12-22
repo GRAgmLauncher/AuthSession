@@ -25,7 +25,7 @@ class Image extends \Framework\Filesystem\File {
 	}
 
 	public function setWidth($width) {
-		$this->width = $width;
+		$this->width = round($width);
 	}
 	
 	public function getWidth() {
@@ -33,7 +33,7 @@ class Image extends \Framework\Filesystem\File {
 	}
 	
 	public function setHeight($height) {
-		$this->height = $height;
+		$this->height = round($height);
 	}
 	
 	public function getHeight() {
@@ -69,7 +69,7 @@ class Image extends \Framework\Filesystem\File {
 	}
 
 	
-	public function saveCopy($name, $path, $maxWidth = null, $maxHeight = null, $quality = 100) {
+	public function saveCopy($name, $path, $maxWidth = null, $maxHeight = null, $quality = 99) {
 		$target = clone $this;
 		$target->setName($name);
 		$target->setDirectory($path);

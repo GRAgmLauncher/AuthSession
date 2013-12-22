@@ -28,8 +28,7 @@ class Redirect
 	
 	public function withMessage($message, $color = null, $location = null) {
 		$this->Flash->setMessage($message, $color);
-		$this->to($location);
-		
+		$this->to($location);	
 	}
 }
 

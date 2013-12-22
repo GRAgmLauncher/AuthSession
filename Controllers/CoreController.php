@@ -14,6 +14,9 @@ class CoreController
 	protected $Input;
 	protected $Flash;
 	protected $Redirect;
+	protected $Bounce;
+	protected $Params;
+	protected $Request;
 	
 	public function setSession(\Framework\Session\Session $Session) {
 		$this->Session = $Session;
@@ -31,8 +34,20 @@ class CoreController
 		$this->Flash = $Flash;
 	}
 	
-	public function setBouncer(\Framework\Redirect $Redirect) {
+	public function setRedirect(\Framework\Redirect $Redirect) {
 		$this->Redirect = $Redirect;
+	}
+	
+	public function setPermissionChecker(\Framework\Security\PermissionChecker $PermissionChecker) {
+		$this->PermLevel = $PermissionChecker;
+	}
+	
+	public function setRouteParameters(Array $parameters) {
+		$this->Params = $parameters;
+	}
+	
+	public function setRequest(\Framework\Request $Request) {
+		$this->Request = $Request;
 	}
 }
 

@@ -1,0 +1,19 @@
+body {
+	margin: 0;
+	padding: 0;
+}
+
+nav {
+	padding: 10px;
+	background: #f2f2f2;
+	height: 30px;
+}
+
+#headerWelcomeBox,
+#headerLoginBox {
+	float: right;
+}
+
+.stacked input {
+	display: block;
+}

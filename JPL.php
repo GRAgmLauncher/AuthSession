@@ -18,14 +18,14 @@ class JPL
 	public function run() {
 		
 		// Start the session, and load framework helpers/components
-		$Session 	= $this->Injector->create('Framework\Session\SessionManager')->initializeSession();
+		$Session 			= $this->Injector->create('Framework\Session\SessionManager')->initializeSession();
 		$Input 				= $this->Injector->create('Framework\Inputer\Input');					  
 		$Template 			= $this->Injector->create('Views\Template');
 		$Flash				= $this->Injector->create('Framework\Flasher\Flash');
 		$Redirect			= $this->Injector->create('Framework\Redirect');
-		
-		debug($Session);
-		
+		$Permissions		= $this->Injector->create('Framework\Security\PermissionChecker', array($Session));
+		$Request			= $this->Injector->create('Framework\Request');
+
 		// Run the router
 		$Router = $this->Injector->create('Framework\Router\Router');
 		$Router->setRoutes($this->routes);
@@ -46,13 +46,17 @@ class JPL
 		$Controller->setInput($Input);
 		$Controller->setTemplate($Template);
 		$Controller->setFlasher($Flash);
-		$Controller->setBouncer($Redirect);
+		$Controller->setRedirect($Redirect);
+		$Controller->setPermissionChecker($Permissions);
+		$Controller->setRouteParameters($Route->parameters);
+		$Controller->setRequest($Request);
 		$Controller->$action();
 		
 		
 		// Do final template assignments, and then render the view
 		$Template->assign('Session', $Session);
 		$Template->assign('Flash', $Flash->getMessage());
+		$Template->assign('thispage', $Request->getURI());
 		$Template->render($view);
 	}
 }
