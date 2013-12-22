@@ -1,6 +1,6 @@
 <?php
 
-namespace Framework\Helpers\Form;
+namespace Framework\Helpers\Form\Fields;
 
 abstract class FormField
 {
@@ -9,6 +9,7 @@ abstract class FormField
 	public $id;
 	public $rules;
 	public $error;
+	public $value;
 	
 	public function rules($rules) {
 		$this->rules = $rules;

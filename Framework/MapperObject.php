@@ -42,8 +42,14 @@ class MapperObject
 		$sql .= $this->_addLimit($limit);
 		$stmt = $this->db->prepare($sql);
 		$stmt->execute();
-		$stmt->setFetchMode(\PDO::FETCH_CLASS|\PDO::FETCH_PROPS_LATE, $this->proxy); 
-		return $stmt->fetchAll();
+		$stmt->setFetchMode(\PDO::FETCH_CLASS|\PDO::FETCH_PROPS_LATE, $this->proxy);
+		$objects = $stmt->fetchAll();
+		
+		foreach ($objects as $object) {
+			$this->buildChildren($object);
+		}
+		
+		return $objects;
 	}
 
 	
@@ -73,8 +79,7 @@ class MapperObject
 		
 		$stmt->execute();
 		
-		if ($this->db->lastInsertId() != 0 )
-		{
+		if ($this->db->lastInsertId() != 0 ) {
 			$obj->id = $this->db->lastInsertId();
 		}
 	}

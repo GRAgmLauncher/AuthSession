@@ -26,7 +26,6 @@ class File
 		$this->fileSize = filesize($path);
 	}
 	
-		
 	public function setDirectory($path) {
 		$this->dirName = $path;
 	}
@@ -58,6 +57,10 @@ class File
 		return $this->fileSize;
 	}
 	
+	public function getSizeKb() {
+		return round($this->getSize()/1024, 2);
+	}
+	
 	public function getFullPath() {
 		return $this->getDirectory().$this->getBaseName();
 	}
@@ -71,7 +74,7 @@ class File
 	}
 	
 	public function move() {
-	
+		// TODO
 	}
 }
 

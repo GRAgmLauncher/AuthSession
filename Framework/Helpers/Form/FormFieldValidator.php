@@ -5,25 +5,19 @@ namespace Framework\Helpers\Form;
 class FormFieldValidator
 {
 	protected $Input;
+	protected $FormRuleFactory;
 	public $errors;
 	
-	public function __construct(\Framework\Inputer\Input $Input) {
+	public function __construct(\Framework\Inputer\Input $Input, \Framework\Helpers\Form\FormRuleFactory $FormRuleFactory) {
 		$this->Input = $Input;
+		$this->FormRuleFactory = $FormRuleFactory;
 		$this->errors = false;
 	}
 	
-	public function validateFields($fields) 
-	{
-		foreach($fields as $fieldName => $Field) 
-		{
+	public function validateFields($fields) {
+		foreach($fields as $Field) {
+			$Field->value = $this->Input[$Field->name];
 			$this->validateField($Field);
-			
-			if (!$Field->error) {
-				$Field->value = $this->Input[$fieldName];
-			}
-			else {
-				$this->errors = true;
-			}
 		}
 	}
 	
@@ -32,31 +26,14 @@ class FormFieldValidator
 			return;
 		}
 		
-		foreach($this->getRules($Field->rules) as $ruleName) {
-			$this->$ruleName($Field);
+		foreach(explode('|', $Field->rules) as $ruleName) {
+			$rule = $this->FormRuleFactory->make($ruleName);
+			$rule->check($Field);
 		}
-	}
-	
-	protected function getRules($flags) {
-		$rules = array();
-		$flags = explode('|', $flags);
-		
-		foreach ($flags as $flag) {
-			$rules[] = 'rule'.ucfirst($flag);
-		}
-		
-		return $rules;
-	}
-	
-	protected function ruleRequired($Field) {
-		if (!$this->Input[$Field->name]) {
-			$Field->error = 'This field is required';
-		}
-		
-		if ($Field instanceof \Framework\Helpers\Form\UploadField) {
-			if (!isset($_FILES[$Field->name]) || $_FILES[$Field->name]['error'] == 4) {
-				$Field->error = 'This field is required';
-			}
+
+		if ($Field->error) {
+			$Field->value = null;
+			$this->errors = true;
 		}
 	}
 }

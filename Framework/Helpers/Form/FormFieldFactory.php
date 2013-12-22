@@ -4,25 +4,19 @@ namespace Framework\Helpers\Form;
 
 class FormFieldFactory
 {
-	public function make($which) {
-		switch($which) {
-			case 'text':
-				return $this->makeTextField();
-				break;
-			case 'upload':
-				return $this->makeUploadField();
-				break;
-			default:
-				return $this->makeTextField();
-				break;
+	public function make($fieldType, $data) {
+		$fieldType = strtolower($fieldType);
+		$fieldType = ucfirst($fieldType);
+		$field = "\Framework\Helpers\Form\Fields\\".$fieldType;
+		$Field = new $field;
+		$this->populate($Field, $data);
+		
+		return $Field;
+	}
+	
+	public function populate($Field, $data) {
+		foreach($data as $key => $value) {
+			$Field->$key = $value;
 		}
-	}
-	
-	protected function makeTextField() {
-		return new \Framework\Helpers\Form\TextField;
-	}
-	
-	protected function makeUploadField() {
-		return new \Framework\Helpers\Form\UploadField;
 	}
 }

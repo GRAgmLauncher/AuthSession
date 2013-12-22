@@ -24,7 +24,13 @@ class ProductController extends \Controllers\CoreController
 	}
 	
 	public function index() {
-		
+		$Products = $this->ProductMapper->fetchAll();
+		foreach ($Products as $Product) {
+			foreach ($Product->images as $Image) {
+				echo $Image->getSizeKB();
+			}
+		}
+		debug($Products);
 	}
 	
 	public function details() {
@@ -32,9 +38,12 @@ class ProductController extends \Controllers\CoreController
 	}
 	
 	public function add() {
+		
+		$sizeOptions = array(null=>'Select a size...', '24x36'=>'24x36', '48x36'=>'48x36');
 	
 		$this->FormHelper->textField('title', 'Add title...')			->rules('required');
 		$this->FormHelper->textField('description', 'Description...')	->rules('required');
+		$this->FormHelper->selectField('dimensions', $sizeOptions) 		->rules('required');
 		$this->FormHelper->uploadField('image');
 	
 		if ($this->Input['submit']) 
@@ -42,19 +51,18 @@ class ProductController extends \Controllers\CoreController
 			if ($this->FormHelper->validate()) 
 			{	
 				try {
-					$tempname = 'adlksfajsdflafd';
+					$Image = $this->ImageUploader->upload('image', null, UPLOADS.'/product_images/originals');
+					$Thumb1 = $Image->saveCopy(null, UPLOADS.'/product_images/thumbs/small', 150, 150, 85);
+					$Thumb2 = $Image->saveCopy(null, UPLOADS.'/product_images/thumbs/large', 300, 300, 85);
 					
-					$Image = $this->ImageUploader->upload('image', $tempname, UPLOADS.'/product_images/originals');
-					$Thumb1 = $Image->saveCopy($tempname, UPLOADS.'/product_images/thumbs/small', 150, 150);
-					$Thumb2 = $Image->saveCopy($tempname, UPLOADS.'/product_images/thumbs/large', 300, 300);
-					
-					$Product = $this->ProductFactory->make();
-					$Product->populateFromSource($this->Input);
+					$Product = $this->ProductFactory->make($this->Input);
 					$this->ProductMapper->save($Product);
 					
 					$Image->rename($Product->id);
 					$Thumb1->rename($Product->id);
 					$Thumb2->rename($Product->id);
+					
+					$this->Redirect->to('/products');
 				} 
 				catch(\Exception $e) {
 					$this->FormHelper->setFieldError('image', $e->getMessage());

@@ -16,29 +16,30 @@ class FormHelper
 	}
 	
 	public function textField($name, $placeholder, $classes = null, $id = null) {
-		$Field = $this->FormFieldFactory->make('text');
-		$Field->name = $name;
-		$Field->placeholder = $placeholder;
-		$Field->classes = $classes;
-		$Field->id = $id;
-		
+		$data = compact('name', 'placeholder', 'classes', 'id');
+		$Field = $this->FormFieldFactory->make('text', $data);
 		$this->addField($Field);
 		
 		return $Field;
 	}
 	
 	public function uploadField($name, $classes = null, $id = null) {
-		$Field = $this->FormFieldFactory->make('upload');
-		$Field->name = $name;
-		$Field->classes = $classes;
-		$Field->id = $id;
-		
+		$data = compact('name', 'classes', 'id');
+		$Field = $this->FormFieldFactory->make('upload', $data);		
 		$this->addField($Field);
 		
 		return $Field;
 	}
 	
-	public function showField($name) {
+	public function selectField($name, $options, $classes = null, $id = null) {
+		$data = compact('name', 'options', 'classes', 'id');
+		$Field = $this->FormFieldFactory->make('select', $data);
+		$this->addField($Field);
+		
+		return $Field;
+	}
+	
+	public function field($name) {
 		$html = '';
 		$html .= $this->fields[$name]->html();
 		$html .= $this->fields[$name]->error();
@@ -58,7 +59,7 @@ class FormHelper
 		return true;
 	}
 	
-	protected function addField(\Framework\Helpers\Form\FormField $Field) {
+	protected function addField(\Framework\Helpers\Form\Fields\FormField $Field) {
 		$this->fields[$Field->name] = $Field;
 	}
 }

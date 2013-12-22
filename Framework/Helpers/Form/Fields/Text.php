@@ -1,11 +1,10 @@
 <?php
 
-namespace Framework\Helpers\Form;
+namespace Framework\Helpers\Form\Fields;
 
-class TextField extends FormField
+class Text extends FormField
 {
 	public $placeholder;
-	public $value;
 	
 	public function html() {
 		return "<input type=\"text\" classes=\"{$this->classes}\" id=\"{$this->id}\" name=\"{$this->name}\" value=\"{$this->value}\" placeholder=\"{$this->placeholder}\" />";

@@ -69,8 +69,11 @@ class Image extends \Framework\Filesystem\File {
 	}
 
 	
-	public function saveCopy($name, $path, $maxWidth = null, $maxHeight = null, $quality = 99) {
+	public function saveCopy($name, $path, $maxWidth = null, $maxHeight = null, $quality = 90) {
 		$target = clone $this;
+		if (!$name) {
+			$name = $this->getName();
+		}
 		$target->setName($name);
 		$target->setDirectory($path);
 		

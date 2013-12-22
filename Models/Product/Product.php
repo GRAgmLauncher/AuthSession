@@ -7,11 +7,8 @@ class Product
 	/** int */
 	public $id;
 	
-	/** int */
-	public $width;
-	
-	/** int */
-	public $height;
+	/** string */
+	public $dimensions;
 	
 	/** string */
 	public $title;
@@ -25,24 +22,10 @@ class Product
 	/** float */
 	public $price;
 	
+	/** \Models\Product\ProductImages */
+	public $images;
+	
 	public function getSlugName() {
 		return strtolower(str_replace(' ', '-', trim($this->title)));
-	}
-	
-	public function populateFromSource($source) {
-		foreach($this->getFields() as $field) {
-			$this->$field = $source[$field];
-		}
-	}
-	
-	protected function getFields() {
-		$fields = array();
-		$reflector = new \ReflectionClass($this);
-		
-		foreach($reflector->getProperties() as $field) {
-			$fields[] = $field->getName();
-		}
-		
-		return $fields;
 	}
 }

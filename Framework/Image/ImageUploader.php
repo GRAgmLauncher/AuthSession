@@ -33,7 +33,7 @@ class ImageUploader {
 		}
 		
 		// 2. Resave temporary copy to strip out any nasties
-		$FinalImage = $TempImage->saveCopy($name, $directory);
+		$FinalImage = $TempImage->saveCopy($this->makeName($name), $directory);
 		
 		
 		// 3. Delete the potentially unsafe temporary image
@@ -73,6 +73,13 @@ class ImageUploader {
 		}
 		
 		return true;
+	}
+	
+	protected function makeName($name) {
+		if (!$name) {
+			$name = $this->SecurityHelper->randomString(8);
+		}
+		return $name;
 	}
 
 }
