@@ -16,4 +16,5 @@ $Injector->substitute('Framework\Account\RegistrationHandlers\AbstractRegistrati
 
 // Define shared services
 $Injector->share($config['session_provider']);
+$Injector->share('Framework\ORM\RelationTree');
 ?>

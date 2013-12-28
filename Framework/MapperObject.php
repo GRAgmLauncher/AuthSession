@@ -5,14 +5,20 @@ namespace Framework;
 class MapperObject
 {
 	protected $db;
+	protected $Tree;
 
-	public function __construct(\PDO $db)
+	public function __construct(\PDO $db/*, \Framework\ORM\RelationTree $Tree*/)
 	{
 		$this->db = $db;
+		//$this->Tree = $Tree;
 	}
 	
 	public function fetchByID($id)
 	{
+		if (is_array($id)) {
+			return $this->fetchWhereIn('id', $id);
+		}
+		
 		return $this->fetchWhere('id', $id);
 	}
 	
@@ -31,9 +37,26 @@ class MapperObject
 		$builtObject = $stmt->fetch();
 		
 		$this->buildChildren($builtObject);
+		//$this->readChildren();
 		
 		return $builtObject;
 	}
+	
+	/*public function fetchWhereIn($field, $values) 
+	{
+		$field = $this->getDataField($field);
+		$fieldName = $field->getName();
+		$fieldType = $field->getType();
+		$placeholders = implode(',', array_fill(0, count($values), '?'));
+		$values = array_map('intval', $values);
+	
+		$stmt = $this->db->prepare("SELECT * FROM `{$this->table}` WHERE `{$fieldName}` IN ({$placeholders})");
+		$stmt->execute($values);
+		$stmt->setFetchMode(\PDO::FETCH_CLASS|\PDO::FETCH_PROPS_LATE, $this->proxy);
+		$objects = $stmt->fetchAll();
+		
+		debug($objects);
+	}*/
 	
 	
 	public function fetchAll($limit = null)
@@ -45,10 +68,10 @@ class MapperObject
 		$stmt->setFetchMode(\PDO::FETCH_CLASS|\PDO::FETCH_PROPS_LATE, $this->proxy);
 		$objects = $stmt->fetchAll();
 		
-		foreach ($objects as $object) {
+		foreach ($objects as &$object) {
 			$this->buildChildren($object);
 		}
-		
+		debug($objects);
 		return $objects;
 	}
 
@@ -143,6 +166,11 @@ class MapperObject
 			}
 		}
 		return $fields;
+	}
+	
+	private function readChildren() {
+		$this->Tree->findChild($this->proxy);
+		debug($this->Tree);
 	}
 	
 	private function buildChildren($builtObject) {

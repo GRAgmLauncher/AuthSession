@@ -14,7 +14,7 @@ class SessionManager
 	 * @var SessionProvider
 	 */
 	protected $SessionProvider;
-	protected $SessionFactory;
+	protected $SessionPrototype;
 	
 	
 	
@@ -23,9 +23,9 @@ class SessionManager
 	 * @return void
 	 **/
 	
-	public function __construct ( \Framework\Session\AbstractSessionProvider $AbstractSessionProvider, \Framework\Session\SessionFactory $SessionFactory ) {
+	public function __construct ( \Framework\Session\AbstractSessionProvider $AbstractSessionProvider, \Framework\Session\Session $SessionPrototype ) {
 		$this->SessionProvider = $AbstractSessionProvider;
-		$this->SessionFactory = $SessionFactory;
+		$this->SessionPrototype = $SessionPrototype;
 	}
 	
 	
@@ -72,7 +72,7 @@ class SessionManager
 	
 	public function createSession($User = null) {
 		
-		$Session = $this->SessionFactory->make();
+		$Session = clone $this->SessionPrototype;
 		
 		if ($User instanceof \Framework\Interfaces\UserInterface) {
 			$this->SessionProvider->endSession($this->SessionProvider->CurrentSession);

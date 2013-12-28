@@ -24,13 +24,8 @@ class ProductController extends \Controllers\CoreController
 	}
 	
 	public function index() {
+	
 		$Products = $this->ProductMapper->fetchAll();
-		foreach ($Products as $Product) {
-			foreach ($Product->images as $Image) {
-				echo $Image->getSizeKB();
-			}
-		}
-		debug($Products);
 	}
 	
 	public function details() {
@@ -44,7 +39,7 @@ class ProductController extends \Controllers\CoreController
 		$this->FormHelper->textField('title', 'Add title...')			->rules('required');
 		$this->FormHelper->textField('description', 'Description...')	->rules('required');
 		$this->FormHelper->selectField('dimensions', $sizeOptions) 		->rules('required');
-		$this->FormHelper->uploadField('image');
+		$this->FormHelper->uploadField('image')							->rules('required');
 	
 		if ($this->Input['submit']) 
 		{
@@ -67,7 +62,6 @@ class ProductController extends \Controllers\CoreController
 				catch(\Exception $e) {
 					$this->FormHelper->setFieldError('image', $e->getMessage());
 				}
-
 			}
 		}
 		

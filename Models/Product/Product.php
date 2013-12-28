@@ -22,7 +22,7 @@ class Product
 	/** float */
 	public $price;
 	
-	/** \Models\Product\ProductImages */
+	/** \Models\Product\ProductImageCollection */
 	public $images;
 	
 	public function getSlugName() {

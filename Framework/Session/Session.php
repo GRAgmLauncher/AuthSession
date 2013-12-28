@@ -18,7 +18,7 @@ class Session implements \Framework\Interfaces\SessionInterface
 	/** int */
 	public $user_id;
 	
-	/** User */
+	/** \Models\User\User */
 	public $User;
 	
 	

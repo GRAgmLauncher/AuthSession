@@ -4,20 +4,21 @@ namespace Models\Product;
 
 class ProductImagesMapper {
 
-	protected $ProductImages;
+	protected $ProductImageCollectionPrototype;
 	protected $ImageFactory;
 
-	public function __construct(\Models\Product\ProductImages $ProductImages, \Framework\Image\ImageFactory $ImageFactory) {
-		$this->ProductImages = $ProductImages;
+	public function __construct(\Models\Product\ProductImageCollection $ProductImageCollection, \Framework\Image\ImageFactory $ImageFactory) {
+		$this->ProductImageCollectionPrototype = $ProductImageCollection;
 		$this->ImageFactory = $ImageFactory;
 	}
 	
 	public function fetchProductImages($productID) {
-		$this->ProductImages->original = $this->ImageFactory->make(UPLOADS.'/product_images/originals/'.$productID.'.jpg');
-		$this->ProductImages->largeThumb = $this->ImageFactory->make(UPLOADS.'/product_images/thumbs/large/'.$productID.'.jpg');
-		$this->ProductImages->smallThumb = $this->ImageFactory->make(UPLOADS.'/product_images/thumbs/small/'.$productID.'.jpg');
+		$ProductImageCollection = clone $this->ProductImageCollectionPrototype;
+		$ProductImageCollection->original = $this->ImageFactory->make(UPLOADS.'/product_images/originals/'.$productID.'.jpg');
+		$ProductImageCollection->large = $this->ImageFactory->make(UPLOADS.'/product_images/thumbs/large/'.$productID.'.jpg');
+		$ProductImageCollection->small = $this->ImageFactory->make(UPLOADS.'/product_images/thumbs/small/'.$productID.'.jpg');
 		
-		return $this->ProductImages;
+		return $ProductImageCollection;
 	}
 
 }

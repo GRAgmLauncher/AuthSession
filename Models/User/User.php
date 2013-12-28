@@ -24,7 +24,7 @@ class User implements \Framework\Interfaces\UserInterface
 	/** int */
 	public $group_id;
 	
-	/** Group */
+	/** \Models\Group\Group */
 	public $Group;
 }
 

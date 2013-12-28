@@ -13,8 +13,8 @@ class SessionMapper extends \Framework\MapperObject
 	protected $proxy = '\Framework\Session\Session';
 	private $UserMapper;
 	
-	public function __construct(\PDO $db, \Models\User\UserMapper $UserMapper) {
-		parent::__construct($db);
+	public function __construct(\PDO $db, \Framework\ORM\RelationTree $RelationTree, \Models\User\UserMapper $UserMapper) {
+		parent::__construct($db, $RelationTree);
 		$this->UserMapper = $UserMapper;
 	}
 	
