@@ -33,7 +33,7 @@ class Session implements \Framework\Interfaces\SessionInterface
 		
 		if ($User) {
 			$this->user_id = $User->id;
-		} 
+		}
 	}
 	
 	public function updateTimestamp() {
