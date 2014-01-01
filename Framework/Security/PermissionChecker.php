@@ -36,6 +36,7 @@ class PermissionChecker
 			if ($returnOnly) {
 				return false;
 			}
+			
 			$this->Redirect->to('/404');
 		}
 	}
