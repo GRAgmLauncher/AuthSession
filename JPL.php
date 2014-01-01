@@ -25,6 +25,7 @@ class JPL
 		$Redirect			= $this->Injector->create('Framework\Redirect');
 		$Permissions		= $this->Injector->create('Framework\Security\PermissionChecker', array($Session));
 		$Request			= $this->Injector->create('Framework\Request');
+		$TabHelper			= $this->Injector->create('Framework\Helpers\Tabs\TabHelper');
 
 		// Run the router
 		$Router = $this->Injector->create('Framework\Router\Router');
@@ -57,6 +58,7 @@ class JPL
 		$Template->assign('Session', $Session);
 		$Template->assign('Flash', $Flash->getMessage());
 		$Template->assign('thispage', $Request->getURI());
+		$Template->assign('TabHelper', $TabHelper);
 		$Template->render($view);
 	}
 }

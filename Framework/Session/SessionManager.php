@@ -17,13 +17,12 @@ class SessionManager
 	protected $SessionPrototype;
 	
 	
-	
 	/**
 	 * @param SessionProvider
 	 * @return void
 	 **/
 	
-	public function __construct ( \Framework\Session\AbstractSessionProvider $AbstractSessionProvider, \Framework\Session\Session $SessionPrototype ) {
+	public function __construct ( \Framework\Session\AbstractSessionProvider $AbstractSessionProvider, \Framework\Session\Session $SessionPrototype) {
 		$this->SessionProvider = $AbstractSessionProvider;
 		$this->SessionPrototype = $SessionPrototype;
 	}
@@ -40,6 +39,7 @@ class SessionManager
 		session_start();
 		
 		$Session = $this->SessionProvider->getCurrentSession();
+		
 		if ($this->validateSession($Session)) {
 			return $this->updateSessionTimestamp($Session);
 		} else {
@@ -105,6 +105,7 @@ class SessionManager
 	 **/
 	 	 			
 	protected function validateSession($Session) {
+		
 		if (!$Session instanceof \Framework\Interfaces\SessionInterface) {
 			return false;
 		}
