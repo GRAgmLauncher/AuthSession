@@ -13,12 +13,14 @@ $routes = array
 	'/logout'						=> 'AccountController->logout',
 	'/register'						=> 'AccountController->register',
 	'/upload'						=> 'ImageController->upload',
-	'/product/add'					=> 'ProductController->add',
-	'/product/:id'					=> 'ProductController->details',
-	'/product/:id/edit'				=> 'ProductController->edit',
-	'/product/:id/delete'			=> 'ProductController->delete',
-	'/products'						=> 'ProductController->index',
-	'/test'							=> 'SecurityTestController->test'
+	'/manage/paintings/add'			=> 'ManageProductsController->add',
+	'/manage/painting/:id'			=> 'ManageProductsController->details',
+	'/manage/painting/:id/edit'		=> 'ManageProductsController->edit',
+	'/manage/painting/:id/delete'	=> 'ManageProductsController->delete',
+	'/manage/paintings'				=> 'ManageProductsController->index',
+	'/painting/:id'					=> 'PaintingController->details',
+	'/paintings'					=> 'PaintingController->indexAll',
+	'/paintings/size/:size'			=> 'PaintingController->indexSize'
 );
 
 ?>

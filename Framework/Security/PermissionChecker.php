@@ -30,6 +30,15 @@ class PermissionChecker
 			$this->Redirect->to('/404');
 		}
 	}
+	
+	public function isAdmin($returnOnly = false) {
+		if (!$this->Session->User->isAdmin()) {
+			if ($returnOnly) {
+				return false;
+			}
+			$this->Redirect->to('/404');
+		}
+	}
 }
 
 ?>

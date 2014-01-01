@@ -11,6 +11,13 @@ class Template
 		$this->vars[$key] = $value;
 	}
 	
+	public function get($key) {
+		if (isset($this->vars[$key])) {
+			return $this->vars[$key];
+		}
+		return null;
+	}
+	
 	public function setView($view) {
 		$this->view = $view;
 	}

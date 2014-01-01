@@ -32,6 +32,7 @@ class FormFieldValidator
 		}
 
 		if ($Field->error) {
+			$Field->addClass('error');
 			$Field->value = null;
 			$this->errors = true;
 		}

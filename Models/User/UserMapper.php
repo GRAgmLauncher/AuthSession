@@ -10,11 +10,11 @@ namespace Models\User;
 class UserMapper extends \Framework\MapperObject
 {
 	protected $table = 'user';
-	protected $proxy = '\Models\User\User';
 	private $GroupMapper;
 
-	public function __construct(\PDO $db, \Models\Group\GroupMapper $GroupMapper) {
+	public function __construct(\PDO $db, \Models\User\User $User, \Models\Group\GroupMapper $GroupMapper) {
 		parent::__construct($db);
+		$this->proxy = $User;
 		$this->GroupMapper = $GroupMapper;
 	}
 	

@@ -2,7 +2,7 @@
 
 namespace Controllers;
 
-class ProductController extends \Controllers\CoreController
+class ManageProductsController extends \Controllers\CoreController
 {
 	protected $ProductFactory;
 	protected $ProductMapper;
@@ -24,31 +24,33 @@ class ProductController extends \Controllers\CoreController
 	}
 	
 	public function index() {
-	
+		$this->PermLevel->atLeast(10);
 		$Products = $this->ProductMapper->fetchAll();
+		$this->Template->assign('Products', $Products);
 	}
 	
 	public function details() {
+		$this->PermLevel->atLeast(10);
 		$this->Template->assign('id', $this->Params['id']);
 	}
 	
 	public function add() {
-		
+		$this->PermLevel->atLeast(10);
 		$sizeOptions = array(null=>'Select a size...', '24x36'=>'24x36', '48x36'=>'48x36');
 	
 		$this->FormHelper->textField('title', 'Add title...')			->rules('required');
 		$this->FormHelper->textField('description', 'Description...')	->rules('required');
 		$this->FormHelper->selectField('dimensions', $sizeOptions) 		->rules('required');
 		$this->FormHelper->uploadField('image')							->rules('required');
-	
+		
 		if ($this->Input['submit']) 
 		{
 			if ($this->FormHelper->validate()) 
 			{	
 				try {
-					$Image = $this->ImageUploader->upload('image', null, UPLOADS.'/product_images/originals');
-					$Thumb1 = $Image->saveCopy(null, UPLOADS.'/product_images/thumbs/small', 150, 150, 85);
-					$Thumb2 = $Image->saveCopy(null, UPLOADS.'/product_images/thumbs/large', 300, 300, 85);
+					$Image = $this->ImageUploader->upload('image', null, UPLOADS.'/originals');
+					$Thumb1 = $Image->saveCopy(null, UPLOADS.'/thumbs/small', 150, 150, 85);
+					$Thumb2 = $Image->saveCopy(null, UPLOADS.'/thumbs/large', 300, 300, 85);
 					
 					$Product = $this->ProductFactory->make($this->Input);
 					$this->ProductMapper->save($Product);
@@ -57,7 +59,7 @@ class ProductController extends \Controllers\CoreController
 					$Thumb1->rename($Product->id);
 					$Thumb2->rename($Product->id);
 					
-					$this->Redirect->to('/products');
+					$this->Redirect->to('/manage/paintings');
 				} 
 				catch(\Exception $e) {
 					$this->FormHelper->setFieldError('image', $e->getMessage());

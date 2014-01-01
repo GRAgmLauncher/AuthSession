@@ -4,8 +4,7 @@ $Injector = new \Framework\AutoInjector;
 
 // Register explicit subsitutions (TODO, callback or something)
 // Explicit substitutions are by default shared instances, since they are registered once
-$Injector->bind('PDO', new \PDO($config['database']['dsn'], $config['database']['user'], $config['database']['pass']));
-
+$Injector->bind('PDO', $db);
 
 // Substitute all abstractions/interfaces with desired concrete implementation. These definitions should come from configurations in Configurations.php.
 $Injector->substitute('Framework\Session\AbstractSessionProvider', $config['session_provider']);

@@ -5,6 +5,7 @@ namespace Framework\Helpers\Form\Fields;
 abstract class FormField
 {
 	public $name;
+	public $upperName;
 	public $classes;
 	public $id;
 	public $rules;
@@ -17,7 +18,16 @@ abstract class FormField
 	
 	public function error() {
 		if ($this->error) {
-			return "<div class=\"fieldError\">{$this->error}</div>";
+			return $this->error;
+		}
+	}
+	
+	public function addClass($class) {
+		if ($this->classes){
+			$this->classes .= " $class";
+		}
+		else{
+			$this->classes .= "$class";
 		}
 	}
 	

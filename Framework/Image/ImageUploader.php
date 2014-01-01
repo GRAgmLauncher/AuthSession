@@ -57,6 +57,8 @@ class ImageUploader {
 		$tempPath = $this->tempDirectory.$randomName.$extension;
 		
 		// 3. Move the uploaded file
+		debug($Image->getFullPath());
+		debug($tempPath);
 		@move_uploaded_file($Image->getFullPath(), $tempPath);
 		
 		

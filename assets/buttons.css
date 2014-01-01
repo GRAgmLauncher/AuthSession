@@ -1,0 +1,203 @@
+.button, .icon {
+    background-image: url(images/sprite-actionbuttons.png); /* fallback */
+    background-image: url(images/sprite-actionbuttons.png), -webkit-radial-gradient(center 0, ellipse cover, rgba(255,255,255,0.3), rgba(255,255,255,0)); /* Chrome 10+, Saf5.1+ */
+    background-image:    url(images/sprite-actionbuttons.png), -moz-radial-gradient(center 0, ellipse cover, rgba(255,255,255,0.3), rgba(255,255,255,0)); /* FF3.6+ */
+    background-image:     url(images/sprite-actionbuttons.png), -ms-radial-gradient(center 0, ellipse cover, rgba(255,255,255,0.3), rgba(255,255,255,0)); /* IE10 */
+    background-image:      url(images/sprite-actionbuttons.png), -o-radial-gradient(center 0, ellipse cover, rgba(255,255,255,0.3), rgba(255,255,255,0)); /* Opera 11.10+ */
+    background-image:         url(images/sprite-actionbuttons.png), radial-gradient(center 0, ellipse cover, rgba(255,255,255,0.3), rgba(255,255,255,0)); /* W3C */
+    background-position: 0 -40px;
+    background-repeat: repeat-x;
+    border: 1px solid rgba(0,0,0,0.25);
+    border-bottom: 1px solid rgba(0,0,0,0.3);
+    border-radius: 3px;
+    border-top: 1px solid rgba(0,0,0,0.1);
+    box-shadow: 0 2px 2px rgba(0,0,0,0.3);
+    color: rgba(0,0,0,0.55);
+    display: inline-block;
+    font: bold 18px Century Gothic, Arial, sans-serif;
+    height: 34px;
+    letter-spacing: -0.06em;
+    min-width: 170px;
+    padding: 3px 15px 0 15px;
+    text-align: center;
+    text-decoration: none;
+    text-shadow: 0 1px 0 rgba(255,255,255,0.15);
+    outline: none;
+}
+
+button.button {
+	height: 40px;
+	padding-bottom: 6px;
+	cursor: pointer;
+}
+
+.modalFix {
+    z-index: 9999999;
+    position: relative;	
+}
+
+.button:hover, .icon:hover {
+    color: rgba(0,0,0,0.5);
+    background-image: url(images/sprite-actionbuttons.png), -moz-radial-gradient(center 0, ellipse cover, rgba(255,255,255,0.35), rgba(255,255,255,0));
+    background-position: 0 -80px, center 0;
+}
+
+.button.nohover:hover, .icon.nohover:hover {
+    color: rgba(0,0,0,0.55);
+    background-image: url(images/sprite-actionbuttons.png), -moz-radial-gradient(center 0, ellipse cover, rgba(255,255,255,0.3), rgba(255,255,255,0));
+	background-position: 0 -40px;
+}
+
+.dark {
+    border: 1px solid rgba(0,0,0,0.8);
+    border-bottom: 1px solid rgba(0,0,0,0.9);
+}
+
+.blue {
+    background-color: #33abcc;
+}
+
+.green {
+    background-color: #a5ce41;
+}
+
+.red {
+    background-color: #e5300b;
+}
+
+.orange {
+    background-color: #e94d00;
+}
+
+.yellow {
+    background-color: #ffab33;
+}
+
+.gray {
+    background-color: #d0d0d0;
+}
+
+.neutral {
+    background-color: #b3adaa;
+}
+
+.globalred {
+    background-color: #a00000;
+}
+
+.adminred {
+    background-color: #de0000;
+}
+
+.seniororange {
+    background-color: #e95300;
+}
+
+.juniorgreen {
+    background-color: #60cd00;
+}
+
+.black {
+    background-color: #3b3734;
+    color: #e0dcd7 !important;
+    text-shadow: 0 -1px 0 rgba(0,0,0,0.6) !important;
+}
+
+
+.before:before, .after:after, .noicon:after, .noicon:before
+ {
+    content:'';
+    background: url(images/sprite-actionbuttons.png) no-repeat 0 0;
+    display: inline-block;
+    height: 22px;
+    width: 21px;
+    margin: 0 10px 0 0;
+    position: relative;
+    top: 5px;
+}
+
+.after:after {
+    margin: 0 0 0 10px;
+}
+
+.arrow:after, .arrow:before {
+    background-position: 0 -120px; 
+}
+
+.check:after, .check:before {
+	background-position: 0 -145px;
+}
+
+.delete:after, .delete:before {
+	background-position: 0 -170px;
+}
+
+.cancel:after, .cancel:before {
+	background-position: 0 -170px;
+}
+
+.add:after, .add:before {
+	background-position: 0 -195px;
+}
+
+.noicon:after, .noicon:before {
+	background: none;
+	width: 0;
+	margin: 0;
+}
+
+.pointer {
+	cursor:pointer;
+}
+
+.pressdown:active {
+	background-position: 0 0px;
+}
+
+.button span {
+	display: inline-block;
+	position: relative;
+	font-size: 12px;
+	opacity: 0.5;
+	letter-spacing: normal;
+	top: -2px;
+	margin-left: 10px;
+}
+
+/** ICONS **/
+
+.icon {
+	position: relative;
+}
+
+.icon:after {
+	background:  url(images/sprite-actionbuttons.png) no-repeat 0 0;
+	display: block;
+	content: ' ';
+	position: absolute;
+	height: 20px;
+	width: 20px;
+	top: 0;
+	left: 0;
+	
+}
+
+.icon-20 {
+	height: 20px !important;
+	min-width: 20px !important;
+	max-width: 20px !important;
+	padding: 0;
+}
+
+.icon-20.check:after {
+	background-position: -30px -140px;
+}
+
+.icon-20.delete:after {
+	background-position: -30px -160px;
+}
+
+.icon-20.edit:after {
+	background-position: -30px -180px;
+
+}

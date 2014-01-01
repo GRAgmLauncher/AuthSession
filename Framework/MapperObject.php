@@ -5,6 +5,7 @@ namespace Framework;
 class MapperObject
 {
 	protected $db;
+	protected $proxy;
 	protected $Tree;
 
 	public function __construct(\PDO $db/*, \Framework\ORM\RelationTree $Tree*/)
@@ -22,7 +23,6 @@ class MapperObject
 		return $this->fetchWhere('id', $id);
 	}
 	
-	
 	public function fetchWhere($field, $value)
 	{
 		$field = $this->getDataField($field);
@@ -32,10 +32,16 @@ class MapperObject
 		$stmt = $this->db->prepare("SELECT * FROM `{$this->table}` WHERE `{$fieldName}` = :{$fieldName}");
 		$stmt->bindParam(":{$fieldName}", $value, $this->_mapFieldType($fieldType));
 		$stmt->execute();
-		$stmt->setFetchMode(\PDO::FETCH_CLASS|\PDO::FETCH_PROPS_LATE, $this->proxy);
+		if (is_string($this->proxy)) {
+			$stmt->setFetchMode(\PDO::FETCH_CLASS|\PDO::FETCH_PROPS_LATE, $this->proxy);
+		}
+		else {
+			$object = clone $this->proxy;
+			$stmt->setFetchMode(\PDO::FETCH_INTO|\PDO::FETCH_PROPS_LATE, $object);
+		}
+		
 		
 		$builtObject = $stmt->fetch();
-		
 		$this->buildChildren($builtObject);
 		//$this->readChildren();
 		
@@ -71,9 +77,29 @@ class MapperObject
 		foreach ($objects as &$object) {
 			$this->buildChildren($object);
 		}
-		debug($objects);
 		return $objects;
 	}
+	
+	public function fetchAllWhere($field, $value, $limit = null)
+	{
+		$field = $this->getDataField($field);
+		$fieldName = $field->getName();
+		$fieldType = $field->getType();
+		
+		$sql = "SELECT * FROM `{$this->table}` WHERE `{$fieldName}` = :{$fieldName}";
+		$sql .= $this->_addLimit($limit);
+		$stmt = $this->db->prepare($sql);
+		$stmt->bindParam(":{$fieldName}", $value, $this->_mapFieldType($fieldType));
+		$stmt->execute();
+		$stmt->setFetchMode(\PDO::FETCH_CLASS|\PDO::FETCH_PROPS_LATE, $this->proxy);
+		$objects = $stmt->fetchAll();
+		
+		foreach ($objects as &$object) {
+			$this->buildChildren($object);
+		}
+		return $objects;
+	}
+
 
 	
 	public function save($obj)
@@ -101,7 +127,6 @@ class MapperObject
 		$this->_bindFields($stmt, $obj, $fields);
 		
 		$stmt->execute();
-		
 		if ($this->db->lastInsertId() != 0 ) {
 			$obj->id = $this->db->lastInsertId();
 		}

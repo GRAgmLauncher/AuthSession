@@ -5,7 +5,7 @@ body {
 
 nav {
 	padding: 10px;
-	background: #f2f2f2;
+	background: rgba(255,255,255,0.3);
 	height: 30px;
 }
 
@@ -16,4 +16,79 @@ nav {
 
 .stacked input {
 	display: block;
+}
+
+html {
+  background: url(images/background.png) repeat; 
+}
+
+#loginOuterContainer {
+	width: 400px;
+	margin: 0 auto;
+	position: fixed;
+	top: 50%;
+	left: 50%;
+}
+
+#loginInnerContainer {
+	position: relative;
+	left: -200px;
+	top: -150px;
+}
+
+input#email,
+input#password {
+	width: 400px;
+	display: block;
+	padding: 30px;
+	border: none;
+	background: #fff;
+	margin: 0;
+	font: normal 22px Century Gothic, Arial, sans-serif;
+	color: #888;
+	border: 1px solid #e2e2e2;
+	text-align:center;
+}
+
+input#email {
+	border-bottom: none !important;
+	border-radius: 5px 5px 0 0;
+}
+
+input#password {
+	border-radius: 0 0 5px 5px;
+}
+
+input.error {
+	background: #fff url('images/required_field.png') no-repeat left -1px !important;
+	background-clip: padding-box;
+}
+
+input.error::-moz-placeholder {
+	color: #ff6c4a;
+	opacity: 1;
+}
+
+input.error::-webkit-input-placeholder {
+	color: #ff6c4a;
+	opacity: 1;
+}
+
+#loginInnerContainer form {
+	position: relative;
+	z-index: 3;
+}
+
+.buttonContainer {
+	text-align: center;
+	margin-top: 30px;
+}
+
+.bigImageContainer {
+	text-align:center;
+}
+
+.bigImageContainer img {
+	box-shadow: 
+		0 2px 7px rgba(0,0,0,0.2);
 }

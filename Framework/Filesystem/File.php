@@ -76,6 +76,12 @@ class File
 	public function move() {
 		// TODO
 	}
+	
+	public function getURL() {
+		$path = $this->getFullPath();
+		$path = str_replace(ROOT_PATH, '', $path);
+		return str_replace('\\', '/', $path);
+	}
 }
 
 ?>

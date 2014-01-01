@@ -19,12 +19,11 @@ class Product
 	/** int */
 	public $inventory;
 	
-	/** float */
 	public $price;
 	
 	/** \Models\Product\ProductImageCollection */
 	public $images;
-	
+
 	public function getSlugName() {
 		return strtolower(str_replace(' ', '-', trim($this->title)));
 	}

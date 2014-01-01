@@ -40,7 +40,6 @@ class SessionManager
 		session_start();
 		
 		$Session = $this->SessionProvider->getCurrentSession();
-		
 		if ($this->validateSession($Session)) {
 			return $this->updateSessionTimestamp($Session);
 		} else {
@@ -94,7 +93,7 @@ class SessionManager
 	
 	public function destroyCurrentSession() {
 		$this->SessionProvider->endSession($this->SessionProvider->CurrentSession);
-		session_destroy();
+		$this->createSession();
 	}
 	
 	

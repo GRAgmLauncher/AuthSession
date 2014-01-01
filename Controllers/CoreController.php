@@ -14,9 +14,9 @@ class CoreController
 	protected $Input;
 	protected $Flash;
 	protected $Redirect;
-	protected $Bounce;
 	protected $Params;
 	protected $Request;
+	protected $PermLevel;
 	
 	public function setSession(\Framework\Session\Session $Session) {
 		$this->Session = $Session;

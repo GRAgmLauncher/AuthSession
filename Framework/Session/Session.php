@@ -21,6 +21,10 @@ class Session implements \Framework\Interfaces\SessionInterface
 	/** \Models\User\User */
 	public $User;
 	
+	public function __construct(\Models\User\User $User) {
+		$this->user_id = 0;
+		$this->User = $User;
+	}
 	
 	public function populate(\Models\User\User $User = null) {
 		

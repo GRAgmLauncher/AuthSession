@@ -18,5 +18,11 @@ class FormFieldFactory
 		foreach($data as $key => $value) {
 			$Field->$key = $value;
 		}
+		
+		$Field->upperName = ucfirst($data['name']);
+		
+		if (!isset($data['id'])) {
+			$Field->id = $Field->name;
+		}
 	}
 }

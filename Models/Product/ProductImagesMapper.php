@@ -14,9 +14,9 @@ class ProductImagesMapper {
 	
 	public function fetchProductImages($productID) {
 		$ProductImageCollection = clone $this->ProductImageCollectionPrototype;
-		$ProductImageCollection->original = $this->ImageFactory->make(UPLOADS.'/product_images/originals/'.$productID.'.jpg');
-		$ProductImageCollection->large = $this->ImageFactory->make(UPLOADS.'/product_images/thumbs/large/'.$productID.'.jpg');
-		$ProductImageCollection->small = $this->ImageFactory->make(UPLOADS.'/product_images/thumbs/small/'.$productID.'.jpg');
+		$ProductImageCollection->original = $this->ImageFactory->make(UPLOADS.'/originals/'.$productID.'.jpg');
+		$ProductImageCollection->large = $this->ImageFactory->make(UPLOADS.'/thumbs/large/'.$productID.'.jpg');
+		$ProductImageCollection->small = $this->ImageFactory->make(UPLOADS.'/thumbs/small/'.$productID.'.jpg');
 		
 		return $ProductImageCollection;
 	}

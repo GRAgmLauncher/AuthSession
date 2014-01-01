@@ -8,7 +8,7 @@ class Select extends FormField
 	
 	public function html() {
 		$html = '';
-		$html .= "<select classes=\"{$this->classes}\" id=\"{$this->id}\" name=\"{$this->name}\" />";
+		$html .= "<select class=\"{$this->classes}\" id=\"{$this->id}\" name=\"{$this->name}\" />";
 		foreach ($this->options as $value => $text) {
 			
 			if ($this->value == $value) {

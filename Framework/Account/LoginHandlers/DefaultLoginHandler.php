@@ -6,11 +6,11 @@ class DefaultLoginHandler extends AbstractLoginHandler
 {
 	public function login($email, $password) {	
 		if (!$Auth = $this->AuthMapper->fetchWhere('email', $email)) {
-			throw new \Exception('User does not exist');
+			throw new \Exception('User does not exist', 0);
 		}
 
 		if (!$Auth->verifyPassword($password)) {
-			throw new \Exception('Password invalid');
+			throw new \Exception('Password invalid', 1);
 		}
 		
 		if ($Auth->rehashPassword($password)) {
