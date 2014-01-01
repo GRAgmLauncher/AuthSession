@@ -33,6 +33,7 @@ class Template
 		require_once("/Views/common/header.php");
 		require_once("/Views/{$this->view}.php");
 		require_once("/Views/common/footer.php");
+		
 	}
 }
 

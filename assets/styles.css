@@ -9,6 +9,25 @@ nav {
 	height: 30px;
 }
 
+#adminBar {
+	background: #35373c;
+	padding: 20px;
+	color: #fff;
+}
+
+#adminBarUsername {
+	float: right;
+}
+
+#adminBarNav {
+	float: left;
+}
+
+	#adminBarNav a {
+		font: bold 14px Arial, sans-serif;
+		color: #fff;
+	}
+
 #headerWelcomeBox,
 #headerLoginBox {
 	float: right;

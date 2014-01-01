@@ -92,10 +92,17 @@ class FormHelper
 		if ($this->Validator->errors) {
 			return false;
 		}
+		
+		$this->reset();
 		return true;
 	}
-	
+
 	protected function addField(\Framework\Helpers\Form\Fields\FormField $Field) {
 		$this->fields[$Field->name] = $Field;
+	}
+	
+	protected function reset() {
+		$this->fields = array();
+		$this->errors = false;
 	}
 }

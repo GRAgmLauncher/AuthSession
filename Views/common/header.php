@@ -5,14 +5,9 @@
 	</head>
 	<body>
 		<div id="flashMessage" class="flash_<?php echo $Flash->color; ?>"><?php echo $Flash->message; ?></div>
-		<?php debug($Session); ?>
 		<?php if ($Session->User->isAdmin()) : ?>
-			<div id="adminBar">Admin!</div>
+			<?php require_once("/Views/common/includes/adminBar.php"); ?>
 		<?php endif; ?>
 		<nav>
-			<?php if ($Session->User->isLoggedIn()) : ?>
-				<div id="headerWelcomeBox">
-					<?php echo "Hello, {$Session->User->display_name}"; ?> <a href="/logout">Logout</a>
-				</div>
-			<?php endif; ?>
+
 		</nav>
