@@ -32,19 +32,8 @@ class Session implements \Framework\Interfaces\SessionInterface
 		$this->updateTimestamp();
 		
 		if ($User) {
-			$this->mapUser($User);
-		} else {
-			$this->mapGuest();
-		}
-
-	}
-	
-	protected function mapUser(\Models\User\User $User) {
-		$this->user_id = $User->id;
-	}
-	
-	protected function mapGuest() {
-		$this->user_id = 0;
+			$this->user_id = $User->id;
+		} 
 	}
 	
 	public function updateTimestamp() {
