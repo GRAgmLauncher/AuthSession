@@ -38,7 +38,8 @@ html {
   background: url(images/background.png) repeat; 
 }
 
-#loginOuterContainer {
+#loginOuterContainer, 
+#productAddOuterContainer {
 	width: 400px;
 	margin: 0 auto;
 	position: fixed;
@@ -46,14 +47,17 @@ html {
 	left: 50%;
 }
 
-#loginInnerContainer {
+#loginInnerContainer,
+#productAddInnerContainer {
 	position: relative;
 	left: -200px;
 	top: -200px;
 }
 
 input#email,
-input#password {
+input#password,
+input#title,
+input#description {
 	width: 400px;
 	display: block;
 	padding: 30px;

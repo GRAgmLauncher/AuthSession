@@ -40,7 +40,6 @@ class JPL
 		$action = $Dispatcher->getControllerAction();
 		$view = $Dispatcher->getView();
 		
-		
 		// Load the controller, and inject common dependencies. Call the controller action.
 		$Controller = $this->Injector->create($controller);
 		$Controller->setSession($Session);
@@ -52,7 +51,7 @@ class JPL
 		$Controller->setRouteParameters($Route->parameters);
 		$Controller->setRequest($Request);
 		$Controller->$action();
-		
+
 		
 		// Do final template assignments, and then render the view
 		$Template->assign('Session', $Session);

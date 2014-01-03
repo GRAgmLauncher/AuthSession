@@ -1,0 +1,39 @@
+#managePaintingsPanel {
+	margin: 30px 100px;
+	font: normal 12px Arial, sans-serif;
+	color: #4e5051;
+}
+
+#managePaintingsPanel table {
+	width: 100%;
+	border-collapse: collapse;
+}
+
+#managePaintingsPanel table td {
+	background: #fff;
+	padding: 10px;
+	border: 1px solid #e2e2e2;
+}
+
+#managePaintingsPanel table td.center {
+	text-align:center;
+}
+
+
+#managePaintingsPanel table th#id {
+	width: 100px;
+}
+
+#managePaintingsPanel table td.thumbnail {
+	width: 100px;
+	height: 100px;
+	text-align: center;
+	padding: 0;
+}
+
+#managePaintingsPanel img {
+	max-width: 100px;
+	max-height: 100px;
+	background: #000;
+	vertical-align: middle;
+}

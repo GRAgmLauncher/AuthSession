@@ -14,6 +14,7 @@ abstract class FormField
 	
 	public function rules($rules) {
 		$this->rules = $rules;
+		return $this;
 	}
 	
 	public function error() {
@@ -29,6 +30,10 @@ abstract class FormField
 		else{
 			$this->classes .= "$class";
 		}
+	}
+	
+	public function setValue($value) {
+		$this->value = $value;
 	}
 	
 	abstract public function html();

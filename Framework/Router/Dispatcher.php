@@ -15,7 +15,7 @@ class Dispatcher {
 	
 	public function getView() {
 		$controller = strtolower(str_replace('Controller', '', $this->controller));
-		return $controller.DIRECTORY_SEPARATOR.$this->action;
+		return $controller.'/'.$this->action;
 	}
 	
 	public function getControllerBaseName() {

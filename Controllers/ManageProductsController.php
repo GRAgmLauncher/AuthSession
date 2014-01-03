@@ -42,6 +42,7 @@ class ManageProductsController extends \Controllers\CoreController
 		$this->FormHelper->textField('description', 'Description...')	->rules('required');
 		$this->FormHelper->selectField('dimensions', $sizeOptions) 		->rules('required');
 		$this->FormHelper->uploadField('image')							->rules('required');
+		$this->FormHelper->submitField('submit', 'Add Painting');
 		
 		if ($this->Input['submit']) 
 		{
@@ -71,7 +72,19 @@ class ManageProductsController extends \Controllers\CoreController
 	}
 	
 	public function edit() {
+		$this->PermLevel->atLeast(10);
+		$sizeOptions = array(null=>'Select a size...', '24x36'=>'24x36', '48x36'=>'48x36');
+	
+		$id = $this->Params['id'];
+		$Product = $this->ProductMapper->fetchByID($id);
+	
+		$this->FormHelper->textField('title', 'Add title...')			->rules('required')->setValue($Product->title);
+		$this->FormHelper->textField('description', 'Description...')	->rules('required')->setValue($Product->description);
+		$this->FormHelper->selectField('dimensions', $sizeOptions) 		->rules('required')->setValue($Product->dimensions);
+		$this->FormHelper->uploadField('image')							->rules('required');
+		$this->FormHelper->submitField('submit', 'Add Painting');
 		
+		$this->Template->assign('Form', $this->FormHelper);
 	}
 	
 	public function delete() {
